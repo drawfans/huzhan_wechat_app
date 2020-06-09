@@ -1,0 +1,214 @@
+@import "../../__wuBaseWxss__/0.wxss";
+
+@import "list.wxss";
+
+.i-swiper {
+    position: relative;
+    z-index: 0;
+}
+
+.i-swiper swiper {
+    height: 100%;
+    width: 100%;
+}
+
+.i-swiper image {
+    width: 100%;
+    height: 100%;
+}
+
+.i-swiper .wx-swiper-dots.wx-swiper-dots-horizontal {
+    margin-bottom: 32rpx;
+}
+
+.i-swiper .wx-swiper-dot {
+    width: 13rpx;
+    display: inline-flex;
+    height: 13rpx;
+    opacity: .8;
+    justify-content: space-between;
+}
+
+.i-swiper .wx-swiper-dot::before {
+    content: '';
+    flex-grow: 1;
+    background: #fff;
+    border-radius: 8rpx;
+}
+
+.i-swiper .wx-swiper-dot-active {
+    width: 18rpx;
+}
+
+.i-swiper .wx-swiper-dot-active::before {
+    background: #f80;
+}
+
+.i_notice {
+    margin: 10px;
+    font-size: 14px;
+    line-height: 30px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.i_notice .van-icon {
+    font-size: 24px;
+    color: #45a1de;
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+.i_notice .flex-item {
+    padding: 0 5px;
+    height: 30px;
+}
+
+.i_notice swiper,.i_notice swiper view {
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.i_notice .more {
+    width: 30px;
+    text-align: center;
+    color: gray;
+}
+
+.i_icon {
+    position: relative;
+    z-index: 1;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background: #fff;
+    margin: -10px 0 0 0;
+    text-align: center;
+    padding: 10px 5px 25px 5px;
+}
+
+.i_icon .box {
+    margin: 15px 0 5px 0;
+    display: inline-block;
+    width: 46px;
+    height: 46px;
+    border-radius: 100%;
+    background: #ff3030;
+}
+
+.i_icon text {
+    display: block;
+}
+
+.i_icon .van-icon {
+    font-size: 27px;
+    color: #fff;
+    line-height: 46px;
+}
+
+.i_tab {
+    text-align: center;
+    background: #fff;
+    margin: 0;
+    line-height: 42px;
+    border-bottom: 1px #eee solid;
+}
+
+.i_shop {
+    background: #fff;
+    overflow: hidden;
+    padding: 10px 10px 0 10px;
+}
+
+.i_shop .shop {
+    margin: 0 0 20px 0;
+    text-align: center;
+    width: 50%;
+    position: relative;
+}
+
+.i_shop .avatar {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -35px;
+    width: 70px;
+    height: 70px;
+}
+
+.i_shop .avatar image {
+    background: #fff;
+    padding: 3px;
+    box-shadow: 0 -2px 1px 0 rgba(0,0,0,.15);
+    border-radius: 50%;
+    height: 100%;
+    display: block;
+    width: 100%;
+}
+
+.i_shop .shop .link {
+    display: block;
+    height: 100%;
+    padding: 0 10px;
+}
+
+.i_shop .info {
+    margin-top: 20px;
+    padding: 58px 0 8px 0;
+    text-align: center;
+    background: #fafafa;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.08);
+    line-height: 1.5;
+    border: #f5f5f5 1px solid;
+    border-bottom: 0;
+}
+
+.footer {
+    background: #fff;
+    clear: both;
+    padding: 0 0 10px 0;
+}
+
+.footbar {
+    height: 40px;
+    padding: 0 10px;
+    background: #fff;
+    margin-top: 10px;
+    border: solid 1px #eee;
+    border-width: 1px 0 1px 0;
+}
+
+.footbar navigator {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    float: left;
+    margin: 5px 0;
+    padding: 0 12px;
+    border-radius: 2px;
+}
+
+.login_btn {
+    background: #eff2f5;
+    margin-right: 10px;
+}
+
+.backtop_btn {
+    background: #eff2f5;
+    float: right!important;
+}
+
+.footlink {
+    text-align: center;
+    line-height: 20px;
+    margin-top: 10px;
+}
+
+.footlink navigator {
+    margin: 0 20px;
+    color: #45a1de;
+    display: inline-block;
+}

@@ -1,0 +1,962 @@
+@import "../../__wuBaseWxss__/0.wxss";
+
+page {
+    height: 100%;
+}
+
+.filter_box {
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    overflow-y: auto;
+    position: relative;
+}
+
+.filter_t {
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    background-color: #eee;
+    border-bottom: #f2f2f2 solid 1px;
+}
+
+.filter_t .back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 .2rem;
+    font-size: 26px;
+    color: #999;
+    line-height: 50px;
+}
+
+.filter_t .ok-btn {
+    position: absolute;
+    display: inline-block;
+    right: 10px;
+    top: 50%;
+    color: #3993cf;
+    line-height: 30px;
+    height: 30px;
+    font-size: 14px;
+    margin-top: -15px;
+}
+
+.filter_t .title {
+    display: inline-block;
+    font-size: 14px;
+}
+
+.filter_b {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.filter_b .row-flex {
+    padding: 20rpx 30rpx;
+}
+
+.filter_b .flex-item {
+    padding: 0 15rpx 0 0;
+}
+
+.filter_b .flex-item:last-child {
+    padding: 0 0 0 15rpx;
+}
+
+.filter_b button {
+    font-size: 16px;
+    color: #3993cf;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    border: #3993cf 1px solid;
+}
+
+.filter_b button.ok-btn {
+    color: #fff;
+    background: #3993cf;
+}
+
+.filter_a .ul {
+    border-bottom: #f0f0f0 1px solid;
+    padding: 20rpx 30rpx;
+    overflow: hidden;
+}
+
+.filter_a .name {
+    font-size: 14px;
+    padding-bottom: 0;
+}
+
+.filter_a .name .choice-res {
+    color: #3993cf;
+    font-weight: 400;
+    position: absolute;
+    right: 2rem;
+    top: 0;
+    line-height: 2rem;
+}
+
+.filter_a .name em.iconfont {
+    position: absolute;
+    right: .48rem;
+    top: 0;
+    font-size: .68rem;
+    color: #ccc;
+    line-height: 2rem;
+}
+
+.filter_a .name em:last-child {
+    display: none;
+}
+
+.filter_a label {
+    display: inline-block;
+    margin: 10px 15px 0 0;
+}
+
+.filter_a .money view {
+    color: #ccc;
+    display: inline-block;
+    line-height: 30px;
+    padding: 0 10px;
+    vertical-align: bottom;
+}
+
+.filter_a .money input {
+    background: #f5f5f5;
+    margin: 10px 0 0 0;
+    width: 100px;
+    border: #dcdcdc 1px solid;
+    padding: 0 5px;
+    display: inline-block;
+}
+
+.filter_a .attach checkbox-group,.filter_a .attach view {
+    display: inline-block;
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+.filter_a checkbox .wx-checkbox-input {
+    border-radius: 3rpx;
+    height: 28rpx;
+    width: 28rpx;
+}
+
+.filter_a checkbox .wx-checkbox-input.wx-checkbox-input-checked {
+    border-color: #3993cf;
+    background: #3993cf;
+}
+
+.filter_a checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+    border-radius: 50%;
+    width: 28rpx;
+    height: 28rpx;
+    line-height: 26rpx;
+    text-align: center;
+    font-size: 22rpx;
+    color: #fff;
+    background: 0 0;
+    transform: translate(-50%,-50%) scale(1);
+}
+
+.filter_s .ul {
+    border-bottom: #f0f0f0 1px solid;
+    padding: 0 30rpx;
+    line-height: 40px;
+    height: 40px;
+    position: relative;
+    text-align: right;
+}
+
+.filter_s .ul .name {
+    margin: 0;
+    font-size: 14px;
+    position: absolute;
+    margin-top: -20px;
+    top: 50%;
+    left: 30rpx;
+}
+
+.filter_s .ul .arrow {
+    position: absolute;
+    top: 19.5px;
+    right: 30rpx;
+}
+
+.filter_s .ul .check {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.filter_s .ul .check input {
+    line-height: 37px;
+    height: 37px;
+    text-align: right;
+    color: #3993cf;
+}
+
+.filter_select {
+    height: 100%;
+    overflow-y: auto;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    right: 0;
+    top: 0;
+    background: #fff;
+    text-align: left;
+}
+
+.filter_select .ul .van-icon {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.codeList {
+    padding: 0 5px;
+}
+
+.codeList .item {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.codeList .item>view {
+    overflow: hidden;
+    position: relative;
+    margin: 10px 5px 0 5px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.codeList .pic {
+    height: 0;
+    padding-bottom: 80%;
+    overflow: hidden;
+}
+
+.codeList .pic image {
+    width: 100%;
+}
+
+.codeList .info {
+    padding: 5px 5px 8px 5px;
+}
+
+.codeList .info .bot {
+    position: relative;
+    height: 20px;
+    margin: 6px 0 0 0;
+    line-height: 20px;
+    display: block;
+    text-align: right;
+}
+
+.codeList .info .text {
+    position: absolute;
+    top: 50%;
+    margin-top: -9.5px;
+    left: 0;
+    color: #ccc;
+    line-height: 19px;
+    height: 19px;
+}
+
+.codeList .info .tit {
+    overflow: hidden;
+    height: 30px;
+    line-height: 15px;
+    font-size: 12px;
+    margin: 3px 0 0 0;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    word-break: break-all;
+}
+
+.codeList .info .num {
+    font-size: 14px;
+    display: inline-block;
+}
+
+.codeList .info .bot:last-child {
+    margin: 0;
+}
+
+.codeList .info .bot:last-child .text {
+    display: inline;
+    font-size: 12px;
+    color: #f30;
+    padding: 0;
+}
+
+.codeList .info .ListSh {
+    display: inline-block;
+    padding: 0 0 5px 10px;
+    line-height: 25px;
+    height: 20px;
+    color: #999;
+}
+
+.codeList .shop {
+    background-color: rgba(255,255,255,.9);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(100%);
+}
+
+.codeList .shop .action navigator,.codeList .shop .action view {
+    display: inline-block;
+    margin: 5% 0 0 5%;
+    background: #fff;
+    width: 41%;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    border: 1px #e1e1e1 solid;
+    border-radius: 3px;
+}
+
+.codeList .shop .seller {
+    overflow: hidden;
+    margin: 5% 0 0 5%;
+    width: 87%;
+    padding: 1px;
+    border: 1px solid #e1e1e1;
+    background: #fff;
+}
+
+.codeList .shop .name {
+    line-height: 20px;
+    height: 40px;
+    margin-left: 45px;
+}
+
+.codeList .shop .avatar {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+
+.codeList .shop .name view {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 20px;
+}
+
+.codeList .shop .ListSh {
+    margin-top: 10px;
+    text-align: center;
+    line-height: 32px;
+    background: #eee;
+}
+
+.serveList .item {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    margin: 10px 10px 0 10px;
+    border-radius: 2px;
+    padding: 10px;
+    height: 100px;
+    vertical-align: top;
+}
+
+.serveList .pic {
+    float: left;
+    width: 100px;
+    height: 100px;
+}
+
+.serveList .pic image {
+    width: 100px;
+    height: 100px;
+}
+
+.serveList .info {
+    position: relative;
+    margin-left: 110px;
+    height: 100px;
+}
+
+.serveList .info .tit {
+    overflow: hidden;
+    height: 32px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.serveList .info .bot {
+    position: relative;
+    height: 20px;
+    margin: 28px 0 2px 0;
+    line-height: 20px;
+    display: block;
+}
+
+.serveList .info .text {
+    color: #ccc;
+    height: 19px;
+    line-height: 19px;
+}
+
+.serveList .info .num:last-child {
+    font-size: 14px;
+}
+
+.serveList .info .money {
+    margin: 0;
+    text-align: right;
+}
+
+.serveList .info .money .text {
+    position: absolute;
+    top: 50%;
+    margin-top: -9.5px;
+    left: -2px;
+    display: inline-block;
+    font-size: 12px;
+    color: #f30;
+    padding: 0;
+}
+
+.serveList .info .num {
+    font-size: 16px;
+    display: inline-block;
+}
+
+.serveList .info .ListSh {
+    display: inline-block;
+    padding: 0 0 5px 10px;
+    line-height: 25px;
+    height: 20px;
+    color: #999;
+}
+
+.serveList .shop {
+    color: #333;
+    background-color: rgba(255,255,255,.5);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(100%);
+}
+
+.serveList .shop>view {
+    position: relative;
+}
+
+.serveList .shop .seller {
+    background-color: rgba(255,255,255,.9);
+    float: left;
+    height: 100px;
+    width: 82%;
+}
+
+.serveList .shop .avatar {
+    width: 16px;
+    height: 16px;
+    vertical-align: -3px;
+    padding-right: 5px;
+}
+
+.serveList .shop .tname {
+    color: #666;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+.serveList .shop .litem {
+    vertical-align: top;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.serveList .shop .action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 18%;
+}
+
+.serveList .shop .action navigator,.serveList .shop .action view {
+    text-align: center;
+    display: block;
+    width: 100%;
+    height: 33.5px;
+    line-height: 33.5px;
+    color: #fff;
+}
+
+.serveList .shop .action .imfav {
+    background: #ff9402;
+}
+
+.serveList .shop .action .see {
+    background: #ff5000;
+}
+
+.serveList .shop .action view:last-child {
+    background: #c1c1c1;
+}
+
+.webList .item {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    margin: 10px 10px 0 10px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 5px #ccc;
+    vertical-align: top;
+}
+
+.webList .top {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+}
+
+.webList .bottom {
+    width: 100%;
+}
+
+.webList .avatar {
+    float: left;
+    height: 42px;
+    width: 42px;
+    padding: 0 10px;
+}
+
+.webList .avatar image {
+    width: 38px;
+    height: 38px;
+    border-radius: 50px;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 5px #c1c1c1;
+}
+
+.webList .info {
+    padding-right: 10px;
+    margin-left: 65px;
+}
+
+.webList .info navigator {
+    font-size: 12px;
+    display: block;
+    color: #247fbd;
+    overflow: hidden;
+    height: 16px;
+    line-height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.webList .attr {
+    line-height: 20px;
+    height: 20px;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    margin-top: 5px;
+}
+
+.webList .url {
+    float: left;
+    border-left: 0;
+    padding: 0 5px;
+    color: #888;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.webList .money {
+    font-weight: 700;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+    background: #fff3eb;
+    height: 20px;
+    margin: -1px 0 0 -1px;
+    border: 1px solid #fdc7a2;
+    float: left;
+    color: #f60;
+    padding: 0 5px;
+}
+
+.webList .thumb {
+    position: relative;
+    float: left;
+    width: 100%;
+    height: 0;
+    padding-bottom: 79%;
+    overflow: hidden;
+}
+
+.webList .thumb navigator {
+    display: block;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+}
+
+.webList .thumb image {
+    border-top: 1px solid #dfe0e2;
+    display: block;
+    width: 100%;
+}
+
+.webList .thumb .lay {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    transform: translateY(100%);
+}
+
+.webList .thumb .lay view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background: #000;
+    opacity: .6;
+    height: 96%;
+    width: 96%;
+    padding: 2%;
+}
+
+.webList .thumb .lay view.cdes {
+    color: #fff;
+    background: 0 0;
+    opacity: 1;
+    background: 0 0;
+    font-family: serif;
+    line-height: 24px;
+}
+
+.webList .action {
+    background: #fafafa;
+    font-size: 14px;
+    white-space: nowrap;
+    background: #fff;
+    float: left;
+    width: 96%;
+    padding: 10px 2%;
+    border-top: 1px solid #e1e1e1;
+    color: #c1c1c1;
+}
+
+.webList .action .van-icon {
+    position: relative;
+    float: right;
+    font-size: 26px;
+    line-height: 30px;
+    height: 30px;
+    margin: 0 5px;
+    color: #ccc;
+    overflow: hidden;
+}
+
+.webList .action .stats {
+    float: left;
+}
+
+.webList .action view {
+    float: left;
+    line-height: 30px;
+}
+
+.webList dd .l4 span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1rem;
+    width: 100%;
+}
+
+.webList dd .l4 span p {
+    padding-left: 100%;
+}
+
+.ddList .item {
+    border-radius: 2px;
+    margin: 10px 10px 0 10px;
+    position: relative;
+    background: #fff;
+    display: block;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.ddList .top {
+    border-bottom: 1px solid #e1e1e1;
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+    line-height: 20px;
+    max-height: 40px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.ddList .money,.ddList .top .money {
+    color: #ff5000;
+    padding-right: 5px;
+}
+
+.ddList .money:before {
+    content: "￥";
+    font-size: 12px;
+}
+
+.ddList .top view {
+    font-weight: 700;
+    display: inline-block;
+    color: #007cd5;
+    padding-right: 2px;
+}
+
+.ddList .info {
+    border-bottom: 1px dashed #eee;
+    line-height: 16px;
+    height: 16px;
+    background: #fafafa;
+    white-space: nowrap;
+    background: #fff;
+    overflow: hidden;
+    padding: 10px 0;
+    color: #c1c1c1;
+}
+
+.ddList .info .money {
+    float: left;
+    font-weight: 700;
+}
+
+.ddList .info .index {
+    float: right;
+}
+
+.ddList .info .index view {
+    display: inline-block;
+    color: #247fbd;
+}
+
+.ddList .info .index view.bid {
+    color: #693;
+}
+
+.ddList .bottom {
+    line-height: 30px;
+    height: 30px;
+    background: #fafafa;
+    white-space: nowrap;
+    background: #fff;
+    overflow: hidden;
+    padding: 5px 0;
+    color: #c1c1c1;
+}
+
+.ddList .bottom image {
+    border-radius: 50px;
+    border: 1px solid #e1e1e1;
+    width: 25px;
+    height: 25px;
+}
+
+.ddList .bottom .van-icon {
+    position: relative;
+    float: right;
+    font-size: 26px;
+    margin: 0 5px;
+    color: #ccc;
+    overflow: hidden;
+}
+
+.ddList .bottom view {
+    float: left;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+.ddList .bottom view navigator {
+    color: #c1c1c1;
+}
+
+.jifenList {
+    padding: 5px;
+}
+
+.jifenList .item {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.jifenList .item>view {
+    overflow: hidden;
+    position: relative;
+    margin: 5px;
+    background: #fff;
+    border-radius: 2px;
+}
+
+.jifenList .pic {
+    height: 0;
+    padding-bottom: 100%;
+    overflow: hidden;
+    border-bottom: 1px dashed #e6e9ef;
+}
+
+.jifenList .pic image {
+    width: 100%;
+}
+
+.jifenList .info {
+    padding: 8px 8px;
+    line-height: 20px;
+}
+
+.jifenList .info .tit {
+    font-size: 14px;
+    overflow: hidden;
+    height: 20px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+.jifenList .info .money {
+    position: relative;
+    height: 20px;
+}
+
+.jifenList .info .money text {
+    display: inline-block;
+    font-weight: 700;
+    padding: 0 2px;
+}
+
+.jifenList .info .money .add {
+    color: #999;
+    padding: 0 3px;
+}
+
+.jifenList .info .money .num {
+    font-weight: 700;
+}
+
+.jifenList .info .money .sales {
+    position: absolute;
+    color: #333;
+    bottom: 0;
+    right: 0;
+}
+
+.jifenList .info .money {
+    color: rgb(217,22,28);
+}
+
+.jifenList .info .money text:first-child {
+    padding-left: 0;
+}
+
+.sort {
+    font-size: 13px;
+    color: #565d65;
+    position: relative;
+    line-height: 40px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.sort .flex-item {
+    text-align: center;
+}
+
+.sort .flex-item.on,.sort .flex-item.on .van-icon {
+    color: #f60;
+}
+
+.sort .updown {
+    width: 7px;
+    vertical-align: middle;
+    margin: -2px 0 0 3px;
+    display: inline-block;
+}
+
+.sort .updown view {
+    width: 0;
+    height: 0;
+    border: 3px solid transparent;
+}
+
+.sort .updown view.up {
+    border-bottom: 4px solid #666;
+    margin: 0 0 2px 0;
+}
+
+.sort .updown view.down {
+    border-top: 4px solid #666;
+    margin: 2px 0 0 0;
+}
+
+.sort .updown view.up.on {
+    border-bottom-color: #f60;
+}
+
+.sort .updown view.down.on {
+    border-top-color: #f60;
+}
+
+.sort .filter-icon {
+    font-size: 14px;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+    margin: -3px 0 0 1px;
+    color: #666;
+}
+
+.top-search .van-search__content {
+    border-radius: 5px;
+    background: #e7e7e7;
+}
+
+.top-search .van-icon-search {
+    color: #b2b2b2;
+}
+
+view.top-search {
+    padding: 10px 20px 0 20px;
+}
+
+.van-tabbar-item {
+    background: #f9f9f9;
+}

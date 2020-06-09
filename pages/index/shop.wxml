@@ -1,0 +1,117 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <template is="store" data="{{store:Form.store}}"></template>
+    <van-tabs sticky swipeable active="{{tabIndex}}" bind:change="tabsChange" bind:disabled="contact" color="#f60" customClass="nav-tabs" lineWidth="80">
+        <van-tab icon="home-o" iconStyle="line-height:21px;font-size:21px" title="首页">
+            <block wx:for="{{Form.commend}}" wx:for-index="type" wx:key="type">
+                <view class="store-name">
+                    <view class="line"></view>
+                    <text>推荐{{item.name}}</text>
+                    <navigator hoverClass="hover" url="list?url=get/lists/{{type}}/{{Form.store.id}}">更多<van-icon customClass="middle2" name="arrow"></van-icon>
+                    </navigator>
+                </view>
+                <view class="store-ibox">
+                    <view class="item {{type}} {{index===0&&item.odd&&'big'}}" wx:for="{{item.list}}" wx:for-item="goods" wx:key="bh">
+                        <view>
+                            <view class="pic">
+                                <navigator hoverClass="hover" url="{{goods.url}}">
+                                    <image mode="widthFix" src="{{goods.pic}}" webp="{{true}}"></image>
+                                </navigator>
+                            </view>
+                            <view class="info">
+                                <navigator class="title" hoverClass="hover" url="{{goods.url}}">{{goods.tit}}</navigator>
+                                <view class="bottom">
+                                    <view class="money">￥<text>{{goods.money}}</text>
+                                    </view>
+                                    <view class="gicon">
+                                        <view bindtap="{{is.bind}}" class="{{is.class}}" data-action="{{is.action}}" data-id="{{item.id}}" data-info="{{is.text}}" data-title="信息" wx:for="{{goods.icon}}" wx:for-item="is" wx:key="index">{{is.name}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </block>
+        </van-tab>
+        <van-tab icon="evaluate" title="评价">
+            <view class="revList">
+                <view class="radio-group">
+                    <van-radio-group bind:change="radioChange" value="{{getdata.filter||''}}">
+                        <van-radio name="">全部</van-radio>
+                        <van-radio name="2">好评</van-radio>
+                        <van-radio name="0">中评</van-radio>
+                        <van-radio name="-1">差评</van-radio>
+                        <van-radio name="notauto">非自评</van-radio>
+                        <van-radio name="append">有追加</van-radio>
+                    </van-radio-group>
+                </view>
+                <view class="item row-flex" wx:for="{{listdata.list}}" wx:for-index="evaIndex" wx:for-item="data" wx:key="index">
+                    <view class="avatar">
+                        <view>
+                            <view>
+                                <image mode="widthFix" src="{{data.user.avatar}}" webp="{{true}}"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex-item">
+                        <navigator class="goods" hoverClass="hover" url="{{data.goods.url}}">
+                            <text>{{data.goods.money}}</text> {{data.goods.tit}}</navigator>
+                        <view class="info">
+                            <block wx:for="{{data.eva}}" wx:for-index="type" wx:for-item="e" wx:key="index">
+                                <view class="name {{type}}" wx:if="{{type=='buy'}}">
+                                    <text>{{data.user.name}}</text>
+                                    <view class="{{data.user.rev}}"></view>
+                                    <view class="eva {{e.give}}" wx:if="{{e.give}}">
+                                        <van-icon name="{{e.give=='bad'?'bad':'evaluate'}}"></van-icon>
+                                    </view>
+                                </view>
+                                <view class="name {{type}}" wx:else>
+                                    {{e.name}}
+                                </view>
+                                <view class="text">
+                                    {{e.text}}
+                                    <view class="bfile" wx:if="{{e.pic}}">
+                                        <view wx:for="{{e.pic}}" wx:for-item="src" wx:key="src">
+                                            <image hidden bindload="Lay" data-action="intoPreview" data-field="{{e.field}}" data-src="{{url}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                            <view>
+                                                <view>
+                                                    <image bindtap="Lay" data-action="allPreview" data-field="{{e.field}}" data-src="{{src}}" mode="widthFix" src="{{src}}" webp="{{true}}"></image>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="time">
+                                    {{e.time}}
+                                </view>
+                                <view class="reply" wx:if="{{e.reply}}">
+                                    <view class="j-br"></view>
+                                    <view class="j-bg"></view>
+                                    <view class="name">{{e.reply.name}}</view>
+                                    <view class="text">{{e.reply.text}}</view>
+                                    <view class="bfile" wx:if="{{e.reply.pic}}">
+                                        <view wx:for="{{e.reply.pic}}" wx:for-item="src" wx:key="src">
+                                            <image hidden bindload="Lay" data-action="intoPreview" data-field="{{e.reply.field}}" data-src="{{url}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                            <view>
+                                                <view>
+                                                    <image bindtap="Lay" data-action="allPreview" data-field="{{e.reply.field}}" data-src="{{src}}" mode="widthFix" src="{{src}}" webp="{{true}}"></image>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="time">{{e.reply.time}}</view>
+                                </view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <template is="list_bottom" data="{{...listdata,loading:loading}}"></template>
+        </van-tab>
+        <van-tab icon="user-o" title="资料">
+            <template is="forview" data="{{list:Form.shopinfo,form:Form.form}}"></template>
+        </van-tab>
+        <van-tab disabled icon="kefu2" title="客服">客服</van-tab>
+    </van-tabs>
+</block>

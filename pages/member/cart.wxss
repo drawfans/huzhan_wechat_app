@@ -1,0 +1,294 @@
+@import "../../__wuBaseWxss__/0.wxss";
+
+.nologin {
+    position: absolute;
+    margin-top: -100px;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.cartList .item {
+    position: relative;
+    background: #fff;
+    margin-bottom: 10px;
+    border-bottom: 1px #ddd solid;
+    border-top: 1px #ddd solid;
+}
+
+.cartList .item:last-child {
+    margin: 0;
+}
+
+.cartList .shops {
+    padding: 10px;
+}
+
+.cartList .ListSh {
+    display: inline-block;
+    margin-bottom: -5px;
+    padding: 0 0 5px 10px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #999;
+}
+
+.cartList .info {
+    position: relative;
+    background: #fafafa;
+    padding: 10px;
+    border-top: 1px #e1e1e1 solid;
+}
+
+.cartList .info .more {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(255,255,255,.9);
+    text-align: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    font-size: 12px;
+    line-height: 24px;
+    transform: translateX(100%);
+}
+
+.cartList .info .more.hide {
+    display: none;
+}
+
+.cartList .info .action {
+    padding-top: 14px;
+}
+
+.cartList .info .action .van-icon {
+    background: #c1c1c1;
+    border-radius: 50%;
+    padding: 5px;
+    color: #fff;
+    font-size: 20px;
+}
+
+.cartList .info .pic {
+    overflow: hidden;
+    margin: 0 10px 0 0;
+    line-height: 58px;
+    height: 58px;
+    width: 76px;
+    color: #36c;
+    border: 1px solid #eee;
+}
+
+.cartList .info .pic image {
+    width: 76px;
+    height: 58px;
+}
+
+.cartList .info .tit {
+    overflow: hidden;
+    height: 32px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.cartList .info .bot {
+    position: relative;
+    height: 20px;
+    line-height: 20px;
+    display: block;
+}
+
+.cartList .info .bot .gicon {
+    padding: 0;
+    background: 0 0;
+    left: 0;
+    right: auto;
+}
+
+.cartList .info .bot .gicon view {
+    margin: 0 5px 0 0;
+}
+
+.cartList .info .text {
+    color: #ccc;
+    height: 19px;
+    line-height: 19px;
+    font-size: 14px;
+}
+
+.cartList .info .money .text {
+    display: inline;
+    font-size: 12px;
+    color: #f30;
+}
+
+.cartList .info .num {
+    font-size: 14px;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.cartList .attach {
+    background: #fff;
+    padding: 8px 10px;
+    line-height: 18px;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+}
+
+.cartList .attach .van-checkbox {
+    margin-top: -2px;
+}
+
+.cartList .attach .explain {
+    font-size: 12px;
+    color: rgba(69,90,100,.6);
+}
+
+.cartList .attach .explain .b {
+    font-weight: 700;
+}
+
+.cartList .attach .explain view {
+    display: inline-block;
+}
+
+.cartList .attach .money .text {
+    display: inline;
+    font-size: 12px;
+    color: #f30;
+}
+
+.cartList .attach .money .green {
+    color: #3a933a;
+}
+
+.cartList .attach .money .num {
+    display: inline-block;
+    font-weight: 700;
+}
+
+.cartList .shop {
+    color: #333;
+    background-color: rgba(255,255,255,.5);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.cartList .shop .seller {
+    background-color: rgba(255,255,255,.9);
+    float: left;
+    height: 100px;
+    width: 82%;
+}
+
+.cartList .shop .avatar {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.cartList .shop .avatar image {
+    width: 16px;
+    height: 16px;
+}
+
+.cartList .shop .name {
+    color: #000;
+}
+
+.cartList .shop .tname {
+    color: #666;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+.cartList .shop .litem {
+    float: left;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cartList .shop .action {
+    float: right;
+    height: 100%;
+    width: 18%;
+}
+
+.cartList .shop .action .navigator,.cartList .shop .action view {
+    text-align: center;
+    display: block;
+    width: 100%;
+    height: 33.5px;
+    line-height: 33.5px;
+    background: #ff9402;
+    color: #fff;
+}
+
+.cartList .shop .action navigator:nth-child(1) {
+    background: #ff5000;
+}
+
+.cartList .shop .action view {
+    background: #c1c1c1;
+}
+
+.shop_view {
+    padding-bottom: 50px;
+}
+
+.shop_list {
+    height: 100px;
+    border-bottom: 1px solid #dbdbdb;
+    line-height: 100px;
+    padding-left: 20px;
+}
+
+.fixed_top {
+    background: #ff774f;
+}
+
+.fixed_top .ui-col {
+    color: #fff;
+}
+
+.fixed_bottom {
+    background: #fff;
+    box-shadow: 0 -8px 10px 0 #eaeaea;
+}
+
+.fixed_bottom .form_list {
+    background: #fe6a3c;
+    color: #fff;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+}
+
+.fixed_bottom .money {
+    color: #f30;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.fixed_bottom .money .num {
+    font-size: 20px;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.fixed_bottom .form_num {
+    display: inline-block;
+}

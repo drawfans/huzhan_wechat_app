@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/member/member",
+    "pages/index/article",
+    "pages/member/myorder",
+    "pages/index/show",
+    "pages/index/list",
+    "pages/index/shop",
+    "pages/member/html",
+    "pages/member/cart",
+    "pages/member/login",
+    "pages/member/list/fav",
+    "pages/member/list/order",
+    "pages/member/list/detail",
+    "pages/member/list/manage",
+    "pages/member/list/message"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "互站网",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#7a7e83",
+    "selectedColor": "#e93b3d",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/images/home.png",
+        "selectedIconPath": "static/images/home_hover.png"
+      },
+      {
+        "pagePath": "pages/member/cart",
+        "text": "购物车",
+        "iconPath": "static/images/cart.png",
+        "selectedIconPath": "static/images/cart_hover.png"
+      },
+      {
+        "pagePath": "pages/member/member",
+        "text": "我的",
+        "iconPath": "static/images/my.png",
+        "selectedIconPath": "static/images/my_hover.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap96.json"
+}

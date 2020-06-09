@@ -1,0 +1,20 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <van-search bind:change="searchChange" bind:search="searchSubmit" icon="search" placeholder="请输入搜索标题关键词" shape="round" value="{{search}}"></van-search>
+    <van-tabs animated sticky swipeable active="{{listIndex}}" bind:change="tabChange" swipeThreshold="5">
+        <van-tab title="{{tab.name}}" wx:for="{{Form.tabs}}" wx:for-index="id" wx:for-item="tab" wx:key="value">
+            <view class="messageList" id="main">
+                <view bindtap="readMessage" class="item" data-id="{{item.id}}" data-index="{{index}}" data-state="{{item.state}}" data-url="{{item.url}}" wx:for="{{listdata[id].list}}" wx:key="id">
+                    <view class="state v{{item.state}}"></view>
+                    <view class="info">
+                        <view class="time">
+                            <text>{{item.sorts}}</text>{{item.time}}</view>
+                        <view class="text">{{item.text}}</view>
+                    </view>
+                </view>
+            </view>
+        </van-tab>
+    </van-tabs>
+    <template is="list_bottom" data="{{...listdata[listIndex],loading:loading,unit:'条'}}"></template>
+</block>

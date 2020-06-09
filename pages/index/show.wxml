@@ -1,0 +1,238 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <view class="info-id" wx:if="{{Form.data.id}}">信息ID：{{Form.data.id}}</view>
+    <block wx:if="{{Form.type=='code'||Form.type=='serve'}}">
+        <view class="pro_bigImg van-hairline--bottom" wx:if="{{Form.data.tp}}">
+            <image mode="widthFix" src="{{Form.data.tp}}" webp="{{true}}"></image>
+        </view>
+        <view class="pro_baseInfor">
+            <view class="row-flex" wx:if="{{!Form.data.allmoney}}">
+                <view class="money">{{Form.data.money}}</view>
+            </view>
+            <view class="row-flex title van-multi-ellipsis--l2">{{Form.data.tit}}</view>
+            <view class="editionChoose" wx:if="{{Form.data.allmoney}}">
+                <view class="g_m row-flex">
+                    <view class="name">
+                        价 格：
+                    </view>
+                    <view class="flex-item">
+                        <view class="price">{{Form.data.allmoney[Form.AllmoneyOn||0].money}}</view>
+                    </view>
+                </view>
+                <view class="row-flex">
+                    <view class="name">
+                        版 本：
+                    </view>
+                    <view class="flex-item editionList">
+                        <view bindtap="gaChange" class="item {{!Form.AllmoneyOn&&index==0||Form.AllmoneyOn==index?'on':''}}" data-field="AllmoneyOn" id="{{index}}" wx:for="{{Form.data.allmoney}}" wx:for-item="items" wx:key="edition">{{items.edition}}<van-icon name="duigou1"></van-icon>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="pro_guarantee van-hairline--top">
+            <view class="top">
+                <view bindtap="gaChange" class="tit {{!Form.GuaranteeOn&&index==0||Form.GuaranteeOn==index?'on':''}}" data-field="GuaranteeOn" data-title="{{items.text}}" id="{{index}}" wx:for="{{Form.Guarantee}}" wx:for-item="items" wx:key="name">
+                    <view>
+                        <van-icon name="duigou"></van-icon> {{items.name}}</view>
+                </view>
+            </view>
+            <view class="bottom van-hairline--top">{{Form.Guarantee[Form.GuaranteeOn||0].text}}</view>
+        </view>
+        <view class="pro_attr" wx:if="{{Form.ShowAttr}}">
+            <view class="tit van-hairline--bottom">商品属性</view>
+            <view class="list">
+                <view class="item" wx:for="{{Form.ShowAttr}}" wx:for-item="items" wx:key="title">
+                    <view class="name" wx:if="{{items.title}}">{{items.title}}：</view>
+                    <view class="text">
+                        <template is="forview" data="{{list:items.list,form:Form.form}}" wx:if="{{items.list}}"></template>
+                        <template is="view" data="{{view:items}}" wx:else></template>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="pro_ishop">
+            <view class="top">
+                <image src="{{Form.role.avatar}}"></image>
+                <view class="info">
+                    <view class="name">{{Form.role.name}} <icon class="{{Form.role.rev}}"></icon>
+                    </view>
+                    <view class="certification">
+                        <view class="tit">商家认证：</view>
+                        <template is="forview" data="{{list:Form.role.cer,form:Form.form}}" wx:if="{{Form.role.cer}}"></template>
+                    </view>
+                    <view>
+                        <view class="tit">店铺评分：</view>
+                        <view class="store-score">
+                            <view wx:for="{{Form.role.score}}" wx:key="index">
+                                <text>{{index}}</text>
+                                <view class="{{item.trend}}">
+                                    {{item.value}} <van-icon name="shang{{item.trend=='down'?'-copy-copy':''}}"></van-icon>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="bottom row-flex" wx:if="{{Form.ishopAction}}">
+                <template is="forview" data="{{list:Form.ishopAction,form:Form.form}}"></template>
+            </view>
+        </view>
+        <view class="pro_main">
+            <van-tabs sticky swipeable active="{{tabIndex}}" bind:change="tabsChange" color="#f60" lineWidth="100">
+                <van-tab title="{{Form.tabs[0].name}}">
+                    <view class="ul pro_info">
+                        <block wx:for="{{Form.data.txt}}" wx:key="index">
+                            <rich-text nodes="{{item.text}}" wx:if="{{item.type=='html'}}"></rich-text>
+                            <block wx:if="{{item.type=='image'}}">
+                                <image hidden bindload="Lay" data-action="intoPreview" data-field="{{Form.type}}Txt" data-src="{{item.src}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                <image bindtap="Lay" class="gimg" data-action="allPreview" data-field="{{Form.type}}Txt" data-src="{{item.src}}" mode="widthFix" src="{{item.src}}" webp="{{true}}"></image>
+                            </block>
+                        </block>
+                    </view>
+                </van-tab>
+                <van-tab title="{{Form.tabs[1].name}}">
+                    <view class="revList">
+                        <view class="radio-group">
+                            <van-radio-group bind:change="revChange" value="{{getdata.filter||''}}">
+                                <van-radio name="">全部</van-radio>
+                                <van-radio name="2">好评</van-radio>
+                                <van-radio name="0">中评</van-radio>
+                                <van-radio name="-1">差评</van-radio>
+                                <van-radio name="notauto">非自评</van-radio>
+                                <van-radio name="append">有追加</van-radio>
+                            </van-radio-group>
+                        </view>
+                        <view class="item row-flex" wx:for="{{listdata.list}}" wx:for-item="data" wx:key="index">
+                            <view class="avatar">
+                                <view>
+                                    <view>
+                                        <image mode="widthFix" src="{{data.user.avatar}}" webp="{{true}}"></image>
+                                    </view>
+                                </view>
+                            </view>
+                            <view class="flex-item">
+                                <navigator class="goods" hoverClass="hover" url="{{data.goods.url}}">
+                                    <text>{{data.goods.money}}</text> {{data.goods.tit}}</navigator>
+                                <view class="info">
+                                    <block wx:for="{{data.eva}}" wx:for-index="type" wx:for-item="e" wx:key="index">
+                                        <view class="name {{type}}" wx:if="{{type=='buy'}}">
+                                            <text>{{data.user.name}}</text>
+                                            <view class="{{data.user.rev}}"></view>
+                                            <view class="eva {{e.give}}" wx:if="{{e.give}}">
+                                                <van-icon name="{{e.give=='bad'?'bad':'evaluate'}}"></van-icon>
+                                            </view>
+                                        </view>
+                                        <view class="name {{type}}" wx:else>
+                                            {{e.name}}
+                                        </view>
+                                        <view class="text">
+                                            {{e.text}}
+                                            <view class="bfile" wx:if="{{e.pic}}">
+                                                <view wx:for="{{e.pic}}" wx:for-item="src" wx:key="src">
+                                                    <image hidden bindload="Lay" data-action="intoPreview" data-field="{{e.field}}" data-src="{{src}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                                    <view>
+                                                        <view>
+                                                            <image bindtap="Lay" data-action="allPreview" data-field="{{e.field}}" data-src="{{src}}" mode="widthFix" src="{{src}}" webp="{{true}}"></image>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="time">
+                                            {{e.time}}
+                                        </view>
+                                        <view class="reply" wx:if="{{e.reply}}">
+                                            <view class="j-br"></view>
+                                            <view class="j-bg"></view>
+                                            <view class="name">{{e.reply.name}}</view>
+                                            {{e.reply.text}}
+                                            <view class="bfile" wx:if="{{e.reply.pic}}">
+                                                <view wx:for="{{e.reply.pic}}" wx:for-item="src" wx:key="src">
+                                                    <image hidden bindload="Lay" data-action="intoPreview" data-field="{{e.reply.field}}" data-src="{{src}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                                    <view>
+                                                        <view>
+                                                            <image bindtap="Lay" data-action="allPreview" data-field="{{e.reply.field}}" data-src="{{src}}" mode="widthFix" src="{{src}}" webp="{{true}}"></image>
+                                                        </view>
+                                                    </view>
+                                                </view>
+                                            </view>
+                                            <view class="time">{{e.reply.time}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <template is="list_bottom" data="{{...listdata,loading:loading,bottom:50}}"></template>
+                </van-tab>
+                <van-tab title="{{Form.tabs[2].name}}">
+                    <view class="ul pro_rule">
+                        <rich-text nodes="{{Form.rule}}"></rich-text>
+                    </view>
+                </van-tab>
+            </van-tabs>
+        </view>
+    </block>
+    <block wx:elif="{{Form.type=='jifen'}}">
+        <view class="pro_bigImg van-hairline--bottom" wx:if="{{Form.data.tp}}">
+            <image mode="widthFix" src="{{Form.data.tp}}" webp="{{true}}"></image>
+        </view>
+        <template is="forview" data="{{list:Form.data.jhtml}}"></template>
+        <view class="pro_main">
+            <van-tabs sticky swipeable active="{{tabIndex}}" color="#f60" lineWidth="100">
+                <van-tab title="{{Form.tabs[0].name}}">
+                    <view class="ul pro_info">
+                        <block wx:for="{{Form.data.txt}}" wx:key="index">
+                            <rich-text nodes="{{item.text}}" wx:if="{{item.type=='html'}}"></rich-text>
+                            <block wx:if="{{item.type=='image'}}">
+                                <image hidden bindload="Lay" data-action="intoPreview" data-field="{{Form.type}}Txt" data-src="{{item.src}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                <image bindtap="Lay" class="gimg" data-action="allPreview" data-field="{{Form.type}}Txt" data-src="{{item.src}}" mode="widthFix" src="{{item.src}}" webp="{{true}}"></image>
+                            </block>
+                        </block>
+                    </view>
+                </van-tab>
+            </van-tabs>
+        </view>
+    </block>
+    <block wx:elif="{{Form.type=='task'}}">
+        <view class="pro_table">
+            <view class="tit">{{Form.data.tit}}</view>
+            <view class="list">
+                <view class="row row-flex" wx:for="{{Form.ShowAttr}}" wx:for-item="items" wx:key="name">
+                    <view class="name" wx:if="{{items.title}}">
+                            {{items.title}}：
+                        </view>
+                    <template is="forview" data="{{list:items.list,form:Form.form}}" wx:if="{{items.list}}"></template>
+                    <template is="view" data="{{view:items}}" wx:else></template>
+                </view>
+            </view>
+        </view>
+        <template is="forview" data="{{list:listdata.list,form:Form.form}}"></template>
+    </block>
+    <block wx:else>
+        <view class="pro_bigImg" wx:if="{{Form.data.tp}}">
+            <image src="{{Form.data.tp}}"></image>
+        </view>
+        <view class="pro_table">
+            <view class="tit">{{Form.data.tit}}</view>
+            <view class="list">
+                <view class="row row-flex" wx:for="{{Form.ShowAttr}}" wx:for-item="items" wx:key="title">
+                    <view class="name" wx:if="{{items.title}}">
+                            {{items.title}}：
+                        </view>
+                    <template is="forview" data="{{list:items.list,form:Form.form}}" wx:if="{{items.list}}"></template>
+                    <template is="view" data="{{view:items}}" wx:else></template>
+                </view>
+            </view>
+        </view>
+    </block>
+    <van-goods-action wx:if="{{Form.AcBot}}">
+        <block wx:for="{{Form.AcBot}}" wx:for-item="items" wx:key="text">
+            <van-goods-action-icon bind:click="{{items.bind||'Lay'}}" class="{{items.flex?'flex-item center':''}}" data-action="{{items.action||''}}" data-data="{{items.data||''}}" data-info="{{items.info||''}}" data-method="{{items.method||''}}" disabled="{{items.disabled===true}}" flex="{{items.flex||''}}" icon="{{items.icon}}" openType="{{items.openType||''}}" text="{{items.text||''}}" wx:if="{{items.icon}}"></van-goods-action-icon>
+            <van-goods-action-button bind:click="{{items.bind||'Lay'}}" data-action="{{items.action||''}}" data-data="{{items.data||''}}" data-info="{{items.info||''}}" data-method="{{items.method||''}}" disabled="{{items.disabled===true}}" openType="{{items.openType||''}}" text="{{items.text||''}}" type="{{items.color||''}}" wx:else></van-goods-action-button>
+        </block>
+    </van-goods-action>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</block>

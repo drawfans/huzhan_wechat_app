@@ -1,0 +1,111 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop,bottom:height.ListAction}}"></template>
+<view id="main" wx:if="{{!spin}}">
+    <view class="ostate" wx:if="{{row.order}}">
+        <view class="top row-flex">
+            <view class="icon">
+                <van-icon name="shalou"></van-icon>
+            </view>
+            <view class="state">{{row.order.state}}</view>
+            <view bindtap="Lay" class="flex-item tright" data-action="copy" data-info="订单号：{{bh}}" data-title="订单号复制成功">订单号：{{bh}}</view>
+            <view bindtap="flowChange" class="more">
+                <van-icon name="wap-nav"></van-icon>
+            </view>
+        </view>
+        <view class="ohtml">
+            <view class="tmain">
+                <view class="{{hang.class||'p'}}" style="{{hang.style||''}}" wx:for="{{row.prompt.index}}" wx:for-item="hang" wx:key="index">
+                    <block wx:if="{{hang.class!='dispute'}}">
+                        <template is="view" data="{{view:row}}" wx:for="{{hang.list}}" wx:for-item="row" wx:key="index"></template>
+                    </block>
+                    <template is="forview" data="{{list:row.prompt.dispute}}" wx:else></template>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="ohis van-hairline--top-bottom" wx:if="{{row.prompt.his}}">
+        <block wx:for="{{row.prompt.his}}" wx:key="index">
+            <view bindtap="{{data.bind||''}}" class="{{data.class||''}}" data-action="{{data.action||''}}" data-data="{{data.data||''}}" data-info="{{data.info||''}}" data-method="{{data.method||''}}" wx:for="{{item.list}}" wx:for-item="data" wx:key="text">{{data.text}}</view>
+        </block>
+    </view>
+    <view class="oinfo">
+        <view class="row-flex van-hairline--bottom" wx:if="{{item}}" wx:for="{{row.oinfo}}" wx:key="index">
+            <view class="tright">{{index}}</view>
+            <view class="flex-item" wx:if="{{index!='交易内容'}}">
+                <template is="forview" data="{{list:item}}"></template>
+            </view>
+            <view class="flex-item txt" wx:else>
+                <view class="{{!item[0].main||item[1]?'box '+txt.class:''}}" wx:for="{{item}}" wx:for-index="xh" wx:for-item="txt" wx:key="index">
+                    <view class="top" wx:if="{{!item[0].main||item[1]}}">
+                        <text class="left">{{txt.title}}</text>
+                        <text class="right">{{txt.time}}</text>
+                    </view>
+                    <view class="bottom">
+                        <text class="text">{{txt.text}}</text>
+                        <block wx:if="{{txt.filelist}}">
+                            <block wx:if="{{txt.filelist.image}}">
+                                <view class="filetit">图片附件</view>
+                                <view class="bfile">
+                                    <view wx:for="{{txt.filelist.image}}" wx:for-item="url" wx:key="url">
+                                        <image hidden bindload="Lay" data-action="intoPreview" data-field="Txt{{xh}}" data-src="{{url}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="></image>
+                                        <view>
+                                            <view>
+                                                <image bindtap="Lay" data-action="allPreview" data-field="Txt{{xh}}" data-src="{{url}}" mode="widthFix" src="{{url}}" webp="{{true}}"></image>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </block>
+                            <block wx:if="{{txt.filelist.other}}">
+                                <view class="filetit">非图片附件（仅能在PC端查看内容）</view>
+                                <view class="other">
+                                    <view wx:for="{{txt.filelist.other}}" wx:for-index="i" wx:for-item="data" wx:key="index">
+                                            {{data}}
+                                        </view>
+                                </view>
+                            </block>
+                        </block>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view style="height:{{height.ListAction+10}}px;overflow:hidden;">
+        <image bindload="htmlHeight" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="width:0;height:0;"></image>
+    </view>
+    <view class="ListAction fixed" id="ListAction">
+        <view>
+            <view bindtap="onPullDownRefresh" class="shuaxin">
+                <van-icon name="shuaxin1"></van-icon>
+            </view>
+            <van-button bindtap="{{btn.bind||''}}" customClass="{{btn.class}}" data-action="{{btn.action}}" data-data="{{btn.data||''}}" data-info="{{btn.info}}" data-method="{{btn.method||''}}" icon="{{btn.icon}}" iconstyle="{{btn.iconstyle}}" plain="true" size="small" type="{{btn.type||'default'}}" wx:for="{{row.button}}" wx:for-item="btn" wx:key="value">{{btn.value}}</van-button>
+        </view>
+    </view>
+    <van-popup heightFull bind:close="flowChange" customStyle="width:88%;" overlay="{{true}}" position="right" show="{{flowShow}}" title="交易记录" titleStyle="text-align: center" zIndex="10000">
+        <view class="lyTop">
+            <view class="good">
+                <image mode="widthFix" src="{{row.order.goodpic}}!/fh/74/canvas/74x74a0a0" wx:if="{{row.order.goodpic&&flowShow}}"></image>
+                <block wx:else>{{row.order.typename}}</block>
+            </view>
+            <view class="info">
+                <view action="url" bind="Lay" class="tit" info="{{row.order.goodurl}}">{{row.order.tit}}</view>
+                <view>金额：<text class="money">{{row.order.money}}</text>元</view>
+                <view>订单号：{{bh}}</view>
+            </view>
+        </view>
+        <view class="oflow">
+            <view class="row {{index==row.flow.curr?'cur':''}}" wx:for="{{row.flow.list}}" wx:key="text">
+                <view class="info">
+                    <view class="text">{{item.text}}</view>
+                    <rich-text class="desc" nodes="{{item.desc}}" wx:if="{{item.desc}}"></rich-text>
+                </view>
+            </view>
+        </view>
+    </van-popup>
+    <van-popup heightFull widthFull bind:close="disputeChange" closeOnClickOverlay="{{false}}" overlay="{{true}}" position="right" show="{{historyDispute.show}}" title="订单号：{{bh}}" titleStyle="text-align: center" zIndex="10000">
+        <view class="history dispute" wx:if="{{historyDispute.html}}">
+            <template is="forview" data="{{list:historyDispute.html}}"></template>
+        </view>
+    </van-popup>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</view>

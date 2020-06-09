@@ -1,0 +1,256 @@
+<template name="shopList">
+    <view class="shopList">
+        <view class="item" wx:for="{{listdata.list}}" wx:key="index">
+            <view class="row-flex">
+                <navigator class="avatar" hoverClass="hover" url="{{item.url}}">
+                    <image src="{{item.avatar}}!t40" webp="{{true}}"></image>
+                </navigator>
+                <view class="flex-item shop">
+                    <view class="name">
+                        <navigator hoverClass="hover" url="{{item.url}}">{{item.name}}</navigator>
+                    </view>
+                    <view class="{{item.rev}}"></view>
+                    <view class="info">
+                        <view class="num">
+                                宝贝数：{{item.goods}}
+                            </view>
+                        <van-icon catchtap="ListSh" id="{{item.bh}}" name="ellipsis"></van-icon>
+                    </view>
+                </view>
+                <view animation="{{ListSh[item.bh]}}" class="action {{ListSh[item.bh]?'show':'hide'}}">
+                    <view class="row-flex">
+                        <view class="flex-item">
+                            <view class="icon">
+                                <van-icon name="star-o"></van-icon>
+                            </view>
+                            <view>收藏店铺</view>
+                        </view>
+                        <view class="flex-item">
+                            <navigator hoverClass="hover" url="{{item.url}}">
+                                <view class="icon">
+                                    <van-icon name="shop-o"></van-icon>
+                                </view>
+                                <view>逛逛店铺</view>
+                            </navigator>
+                        </view>
+                        <view catchtap="ListSh" class="flex-item" id="{{item.bh}}">
+                            <view class="icon">
+                                <van-icon name="cross"></van-icon>
+                            </view>
+                            <view>关闭</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="jifenList">
+    <view class="jifenList">
+        <view class="item {{index===0&&'lazyView'}}" wx:for="{{listdata.list}}" wx:key="index">
+            <view>
+                <navigator class="pic loadImage {{!Form.lazy||Form.lazy.pos>index?'':'lazyImg'}}" hoverClass="hover" id="{{index}}" url="{{item.alink}}">
+                    <image mode="widthFix" src="{{item.pic}}" webp="{{true}}" wx:if="{{!Form.lazy||Form.lazy.pos>index}}"></image>
+                </navigator>
+                <view class="info">
+                    <view class="tit">
+                        <navigator hoverClass="hover" url="{{item.alink}}">
+                            <block wx:if="{{!getdata.key}}">{{item.tit}}</block>
+                            <rich-text nodes="{{item.tit}}" wx:else></rich-text>
+                        </navigator>
+                    </view>
+                    <view class="money">
+                        <text>{{item.jifen}}</text>积分<block wx:if="{{item.money>0}}">
+                            <text class="add">+</text>
+                            <text>{{item.money}}</text>元</block>
+                        <view class="sales" wx:if="{{item.sales>0}}">兑出<text class="num">{{item.sales}}</text>件</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="taskList">
+    <view class="ddList">
+        <view class="item" wx:for="{{listdata.list}}" wx:key="index">
+            <view class="top">
+                <navigator hoverClass="hover" url="{{item.alink}}">
+                    <view>{{item.typename}}</view>{{item.tit}}</navigator>
+            </view>
+            <view class="info">
+                <view class="money">{{item.money}}</view>
+                <view class="index">
+                    <view>{{item.view}}</view>关注 | <view class="bid">{{item.bid}}</view>人报价</view>
+            </view>
+            <view class="bottom">
+                <template is="forview" data="{{list:item.action}}"></template>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="ddList">
+    <view class="ddList">
+        <view class="item" wx:for="{{listdata.list}}" wx:key="index">
+            <view class="top">
+                <navigator hoverClass="hover" url="{{item.alink}}">
+                    <view class="{{item.MoneyClass}}">{{item.money}}</view>{{item.tit}}</navigator>
+            </view>
+            <view class="bottom">
+                <template is="forview" data="{{list:item.action}}"></template>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="webList">
+    <view class="webList">
+        <view class="item {{index===0&&'lazyView'}}" wx:for="{{listdata.list}}" wx:key="index">
+            <view class="top">
+                <view class="avatar">
+                    <image src="{{item.seller.avatar}}!t40" webp="{{true}}"></image>
+                </view>
+                <view class="info">
+                    <navigator hoverClass="hover" url="{{item.alink}}">
+                        <block wx:if="{{!getdata.key}}">{{item.tit}}</block>
+                        <rich-text nodes="{{item.tit}}" wx:else></rich-text>
+                    </navigator>
+                    <view class="attr">
+                        <template is="forview" data="{{list:item.attr}}"></template>
+                    </view>
+                </view>
+            </view>
+            <view class="bottom">
+                <view class="thumb loadImage">
+                    <navigator hoverClass="hover" url="{{item.alink}}">
+                        <image mode="widthFix" src="{{item.pic}}" webp="{{true}}" wx:if="{{!Form.lazy||Form.lazy.pos>index}}"></image>
+                    </navigator>
+                    <view animation="{{ListSh[item.bh]}}" class="lay {{ListSh[item.bh]?'show':'hide'}}">
+                        <view></view>
+                        <view catchtap="ListSh" class="cdes" id="{{item.bh}}">{{item.txt}}</view>
+                    </view>
+                </view>
+                <view class="action">
+                    <template is="forview" data="{{list:item.action}}"></template>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="serveList">
+    <view class="serveList">
+        <view class="item {{index===0&&'lazyView'}}" wx:for="{{listdata.list}}" wx:key="index">
+            <navigator class="pic loadImage {{!Form.lazy||Form.lazy.pos>index?'':'lazyImg'}}" hoverClass="hover" url="{{item.alink}}">
+                <image mode="widthFix" src="{{item.pic}}" webp="{{true}}" wx:if="{{!Form.lazy||Form.lazy.pos>index}}"></image>
+            </navigator>
+            <view class="info">
+                <view class="tit">
+                    <navigator hoverClass="hover" url="{{item.alink}}">
+                        <block wx:if="{{!getdata.key}}">{{item.tit}}</block>
+                        <rich-text nodes="{{item.tit}}" wx:else></rich-text>
+                    </navigator>
+                </view>
+                <view class="bot">
+                    <view class="gicon">
+                        <view bindtap="{{is.bind||'Lay'}}" class="{{is.class}}" data-action="{{is.action||''}}" data-data="{{is.data||''}}" data-info="{{is.info||''}}" data-method="{{is.method||''}}" name="{{is.name||''}}" wx:for="{{item.icon}}" wx:for-item="is" wx:key="text">
+                            {{is.text}}
+                        </view>
+                    </view>
+                    <view class="text">评分：{{item.score.total>0?item.score.total:'暂无'}}</view>
+                </view>
+                <view class="bot money">
+                    <view class="text">￥<view class="num">{{item.money}}</view>
+                    </view>
+                    <van-icon catchtap="ListSh" customClass="ListSh" id="{{item.bh}}" name="ellipsis"></van-icon>
+                </view>
+                <view animation="{{ListSh[item.bh]}}" class="shop {{ListSh[item.bh]?'show':'hide'}}">
+                    <view>
+                        <view class="action">
+                            <template is="forview" data="{{list:item.action}}"></template>
+                            <view catchtap="ListSh" hoverClass="hover" id="{{item.bh}}">关闭</view>
+                        </view>
+                        <navigator class="seller" hoverClass="hover" url="{{item.seller.shopurl}}">
+                            <view class="litem">
+                                <image class="avatar" src="{{item.seller.avatar}}!t18" webp="{{true}}"></image>{{item.seller.name}}</view>
+                            <view class="litem">
+                                <view class="tname">商家信誉</view>
+                                <icon class="c-icon c-i-lw4 c-i-s1"></icon>
+                            </view>
+                            <view class="litem">
+                                <view class="tname">服务态度</view>
+                                <view class="review">
+                                    <icon class="star" style="width:{{item.score.efficiency}}%"></icon>
+                                </view>
+                            </view>
+                            <view class="litem">
+                                <view class="tname">工作效率</view>
+                                <view class="review">
+                                    <icon class="star" style="width:{{item.score.attitude}}%"></icon>
+                                </view>
+                            </view>
+                            <view class="litem">
+                                <view class="tname">商品质量</view>
+                                <view class="review">
+                                    <icon class="star" style="width:{{item.score.quality}}%"></icon>
+                                </view>
+                            </view>
+                        </navigator>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="codeList">
+    <view class="codeList">
+        <view class="item {{index===0&&'lazyView'}}" wx:for="{{listdata.list}}" wx:key="bh">
+            <view>
+                <navigator class="pic loadImage {{!Form.lazy||Form.lazy.pos>index?'':'lazyImg'}}" hoverClass="hover" id="{{index}}" url="{{item.alink}}">
+                    <image webp mode="widthFix" src="{{item.pic}}" wx:if="{{!Form.lazy||Form.lazy.pos>index}}"></image>
+                </navigator>
+                <view class="info">
+                    <view class="tit">
+                        <navigator hoverClass="hover" url="{{item.alink}}">
+                            <block wx:if="{{!getdata.key}}">{{item.tit}}</block>
+                            <rich-text nodes="{{item.tit}}" wx:else></rich-text>
+                        </navigator>
+                    </view>
+                    <view class="bot">
+                        <view class="gicon">
+                            <view bindtap="{{is.bind||'Lay'}}" class="{{is.class}}" data-action="{{is.action||''}}" data-data="{{is.data||''}}" data-info="{{is.info||''}}" data-method="{{is.method||''}}" name="{{is.name||''}}" wx:for="{{item.icon}}" wx:for-item="is" wx:key="text">
+                                {{is.text}}
+                            </view>
+                        </view>
+                        <view class="text">{{item.types}}</view>
+                    </view>
+                    <view class="bot">
+                        <view class="text">￥<view class="num">{{item.money}}</view>
+                        </view>
+                        <van-icon catchtap="ListSh" customClass="ListSh" id="{{item.bh}}" name="ellipsis"></van-icon>
+                    </view>
+                </view>
+                <view animation="{{ListSh[item.bh]}}" class="shop {{ListSh[item.bh]?'show':'hide'}}">
+                    <view class="action">
+                        <template is="forview" data="{{list:item.action}}"></template>
+                    </view>
+                    <navigator class="seller" hoverClass="hover" url="{{item.seller.shopurl}}">
+                        <image class="avatar" src="{{item.seller.avatar}}" webp="{{true}}"></image>
+                        <view class="name">
+                            <view>{{item.seller.name}}</view>
+                            <icon class="{{item.seller.rev_m}}"></icon>
+                        </view>
+                    </navigator>
+                    <view catchtap="ListSh" class="ListSh" id="{{item.bh}}">关闭</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop}}"></template>
+<template is="list_top" data="{{html:Form,sortValue:sortValue,filter:filter,search:search,filterOld:filterOld,topHeight:topHeight}}"></template>
+<block wx:if="{{!spin}}">
+    <template is="ddList" data="{{listdata:listdata,getdata:getdata}}" wx:if="{{Form.type=='domain'||Form.type=='demand'}}"></template>
+    <template is="taskList" data="{{listdata:listdata,getdata:getdata}}" wx:elif="{{Form.type=='task'}}"></template>
+    <template is="{{Form.type}}List" data="{{Form:Form,listdata:listdata,getdata:getdata,ListSh:ListSh}}" wx:else></template>
+    <template is="list_bottom" data="{{...listdata,loading:loading,lazy:Form.lazy.add>0}}"></template>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</block>

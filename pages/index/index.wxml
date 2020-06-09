@@ -1,0 +1,13 @@
+<import src="/template/template.wxml"></import>
+<import src="/pages/index/list.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <template is="form" data="{{Form:Form}}"></template>
+    <van-tabs active="{{Form.tabs.active||0}}" animated="{{Form.tabs.animated||false}}" bind:change="{{Form.tabs.bind||'tabsChange'}}" border="{{Form.tabs.border!==false}}" color="{{Form.tabs.color||false}}" customClass="{{Form.tabs.class||''}}" duration="{{Form.tabs.duration||0.3}}" lineWidth="{{Form.tabs.lineWidth||-1}}" sticky="{{Form.tabs.sticky||true}}" swipeThreshold="{{Form.tabs.swipeThreshold||4}}" swipeable="{{Form.tabs.swipeable||false}}" type="{{Form.tabs.styleType||'line'}}" zIndex="{{Form.tabs.zIndex||1}}" wx:if="{{Form.tabs.list}}">
+        <van-tab title="{{item.title}}" wx:for="{{Form.tabs.list}}" wx:key="title">
+            <template is="{{item.temp||item.type}}List" data="{{listdata:listdata[index],ListSh:ListSh}}"></template>
+            <template is="list_bottom" data="{{...listdata[index],loading:loading}}"></template>
+        </van-tab>
+    </van-tabs>
+</block>
+<template is="popupform" data="{{Form:popupForm}}"></template>

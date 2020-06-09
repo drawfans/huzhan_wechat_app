@@ -1,0 +1,4 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false}}"></template>
+<template is="form" data="{{Form:Form}}" wx:if="{{!spin}}"></template>
+<template is="popupform" data="{{Form:popupForm}}"></template>

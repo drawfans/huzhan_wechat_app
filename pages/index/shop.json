@@ -1,0 +1,15 @@
+{
+    "usingComponents": {
+        "van-goods-action-button": "/vant/goods-action-button/index",
+        "van-popup": "/vant/popup/index",
+        "van-radio": "/vant/radio/index",
+        "van-radio-group": "/vant/radio-group/index",
+        "forview": "/utils/forview/index",
+        "van-loading": "/vant/loading/index",
+        "van-dialog": "/vant/dialog/index",
+        "van-button": "/vant/button/index",
+        "van-icon": "/vant/icon/index",
+        "van-tab": "/vant/tab/index",
+        "van-tabs": "/vant/tabs/index"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "component": true,
+    "usingComponents": {
+        "van-button": "../button/index",
+        "forview": "/utils/forview/index",
+        "van-loading": "/vant/loading/index",
+        "van-dialog": "/vant/dialog/index",
+        "van-icon": "/vant/icon/index",
+        "van-popup": "/vant/popup/index",
+        "van-tab": "/vant/tab/index",
+        "van-tabs": "/vant/tabs/index"
+    }
+}

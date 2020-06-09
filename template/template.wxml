@@ -1,0 +1,492 @@
+<template name="ly">
+    <template is="{{items.tempname}}" data="{{...items,popuphtml:popuphtml[index],index:index}}" wx:if="{{items.tempname}}" wx:for="{{popup}}" wx:for-item="items" wx:key="index"></template>
+    <van-dialog id="van-dialog"></van-dialog>
+    <view class="loadingFull" wx:if="{{spin}}">
+        <view class="content">
+            <van-loading size="40px"></van-loading>
+        </view>
+    </view>
+    <view class="gotop {{gotop&&gotop!==true?'gobottom':''}}" hidden="{{!gotop}}" style="{{bottom?'bottom:'+bottom+25+'px':''}}" title="{{gotop}}">
+        <van-icon catchtap="Lay" data-action="go" data-info="{{gotop&&gotop!==true?gotop:'top'}}" name="fanhuidingbu" size="28px"></van-icon>
+    </view>
+</template>
+<template name="list_bottom">
+    <view class="PageCount" style="{{bottom?'bottom:'+bottom+30+'px':''}}" wx:if="{{Total>0&&!failview}}">
+        <view class="box">
+            <view>{{CurPage}}/{{TotalPage}}页  {{Total}}{{unit||'个'}}</view>
+        </view>
+    </view>
+    <view style="width:0px;height:0px;overflow:hidden;" wx:if="{{lazy&&Total>0}}">
+        <image bindload="Lay" data-action="lazyHeight" data-element=".lazyView" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="width:0;height:0;"></image>
+    </view>
+    <template is="forview" data="{{list:failview}}" wx:if="{{failview}}"></template>
+    <view class="loading center" id="loading" wx:else>
+        <view hidden="{{!loading}}">
+            <van-loading size="20px" type="spinner"></van-loading>
+        </view>
+        <block wx:if="{{!loading&&CurPage}}">
+            <view wx:if="{{Total<=0}}">
+					没有相关信息
+				</view>
+            <view wx:elif="{{CurPage>=TotalPage}}">
+					没有更多了
+				</view>
+        </block>
+    </view>
+</template>
+<template name="notes">
+    <view class="notes" style="{{note.style||style||''}}">
+        <block wx:if="{{title!='style'}}" wx:for="{{note}}" wx:for-index="title" wx:for-item="list" wx:key="title">
+            <view class="title" wx:if="{{title!='not'}}">
+                <view class="icons"></view>
+                <text>{{title}}：</text>
+            </view>
+            <view class="item {{row.class||''}}" style="{{row.style||''}}" wx:for="{{list}}" wx:for-item="row" wx:key="index">
+                <text class="number"></text>
+                <view bindtap="{{data.bind||''}}" class="{{data.class||''}}" data-action="{{data.action||''}}" data-data="{{data.data||''}}" data-info="{{data.info||''}}" data-method="{{data.method||''}}" style="{{data.style||''}}" wx:for="{{row.list}}" wx:for-index="i" wx:for-item="data" wx:key="i">
+                    <block wx:if="{{!data.endTime}}">{{data.text}}</block>
+                    <down expireTime="{{data.endTime}}" wx:else></down>
+                </view>
+            </view>
+        </block>
+    </view>
+</template>
+<template name="notice">
+    <view class="notice {{notice.class||''}}" style="{{notice.style||''}}">
+        <template is="forview" data="{{list:notice.text}}"></template>
+    </view>
+</template>
+<template name="PopupTem">
+    <van-popup bind:click-overlay="Popup" bind:close="Popup" closable="{{closable}}" closeOnClickOverlay="{{true}}" customStyle="{{customstyle}}" data-action="close" data-index="{{index}}" duration="{{duration}}" overlay="{{overlay}}" overlayStyle="{{overlaystyle}}" position="{{position}}" safeAreaInsetBottom="{{safeareainsetbottom}}" safeAreaInsetTop="{{safeareainsettop}}" scroll="{{scroll}}" show="{{show}}" zIndex="{{zindex}}">
+        <view class="wxParse">
+            <block wx:if="{{info=='wxParse'}}">
+                <import src="../wxParse/wxParse.wxml"></import>
+                <template is="wxParse" data="{{wxParseData:popuphtml.nodes}}"></template>
+            </block>
+            <block wx:else>
+		{{info}}
+		</block>
+        </view>
+    </van-popup>
+</template>
+<template name="install">
+    <van-popup bind:click-overlay="Popup" bind:close="Popup" closable="{{closable}}" closeOnClickOverlay="{{true}}" customStyle="{{customstyle}}" data-action="close" data-index="{{index}}" duration="{{duration}}" overlay="{{overlay}}" overlayStyle="{{overlaystyle}}" position="{{position}}" safeAreaInsetBottom="{{safeareainsetbottom}}" safeAreaInsetTop="{{safeareainsettop}}" scroll="{{scroll}}" show="{{show}}" zIndex="{{zindex}}">
+        <view class="ly_install">
+            <block wx:if="{{index!='note'}}" wx:for="{{info}}" wx:key="index">
+                <view class="name">{{index}}</view>
+                <view class="tr" wx:for="{{item}}" wx:for-item="items" wx:key="name">
+                    <view class="td">{{items.name}}</view>
+                    <view class="td {{items.class}}">{{items.text}} <view class="add {{items.addclass}}" wx:if="{{items.addtext}}">{{items.addtext}}</view>
+                    </view>
+                </view>
+            </block>
+        </view>
+        <template is="notes" data="{{note:info.note,style:'border-top:1px solid #eee;'}}" wx:if="{{info.note}}"></template>
+    </van-popup>
+</template>
+<template name="input">
+    <input hidden maxlength="-1" name="{{input.name||''}}" value="{{form&&input.field?tools.showField(input.field,form):input.value?input.value:''}}" wx:if="{{!input.type&&!input.label}}"></input>
+    <van-checkbox-group bind:change="{{input.bind||'Lay'}}" data-action="{{input.action||'checkbox'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name}}" name="{{input.name}}" value="{{form.checkbox[input.name]||input.value}}" wx:elif="{{input.type=='toggle'}}">
+        <van-cell customClass="{{input.cellClass||''}}" data-index="{{input.name}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" title="{{input.label}}" titleWidth="{{input.titleWidth}}">
+            <van-checkbox checkedClass="{{input.checkedClass||''}}" class="toggleCheckbox" disabled="{{input.disabled===true||input.disabled[index]===true}}" name="1" noColor="{{input.noColor||'#666'}}" single="{{true}}"></van-checkbox>
+        </van-cell>
+    </van-checkbox-group>
+    <van-checkbox-group bind:change="{{input.bind||'Lay'}}" data-action="{{input.action||'checkbox'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name}}" name="{{input.name}}" value="{{form.checkbox[input.name]||input.value}}" wx:elif="{{input.type=='checkbox'}}">
+        <van-cell customClass="{{input.cellClass||''}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" title="{{input.label||''}}" titleWidth="{{input.titleWidth||''}}" wx:if="{{input.cell!==false}}">
+            <van-checkbox checkedClass="{{input.checkedClass||''}}" disabled="{{input.disabled===true||input.disabled[index]===true}}" name="{{index}}" noColor="{{input.noColor||'#666'}}" shape="{{input.shape||'round'}}" wx:for="{{input.vlist}}" wx:for-item="value" wx:key="index">
+				{{value}}
+				</van-checkbox>
+        </van-cell>
+        <block wx:else>
+            <van-checkbox checkedClass="{{input.checkedClass||''}}" disabled="{{input.disabled===true||input.disabled[index]===true}}" name="{{index}}" noColor="{{input.noColor||'#666'}}" shape="{{input.shape||'round'}}" wx:for="{{input.vlist}}" wx:for-item="value" wx:key="index">
+				{{value}}
+				</van-checkbox>
+        </block>
+    </van-checkbox-group>
+    <van-radio-group bind:change="{{input.bind||'Lay'}}" checkedClass="{{input.checkedClass||'checked'}}" data-action="{{input.action||'radio'}}" data-endbind="{{input.endbind||false}}" data-method="{{input.method||''}}" data-name="{{input.name}}" name="{{input.name}}" value="{{form.radio[input.name]||input.value}}" wx:elif="{{input.type=='radio'}}">
+        <van-cell customClass="{{input.cellClass||''}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" title="{{input.label||''}}" titleWidth="{{input.titleWidth||''}}" wx:if="{{input.cell!==false}}">
+            <van-radio checkedStyle="{{input.checkedStyle||'passed'}}" customClass="{{input.class||''}}" disabled="{{input.disabled===true||input.disabled[index]===true}}" iconSize="{{input.iconSize||'18px'}}" name="{{index===0?'0':index===1?'1':index}}" wx:for="{{input.vlist}}" wx:for-item="value" wx:key="index">
+				{{value}}
+				</van-radio>
+        </van-cell>
+        <block wx:else>
+            <van-radio checkedStyle="{{input.checkedStyle||'passed'}}" customClass="{{input.class||''}}" iconSize="{{input.iconSize||'18px'}}" name="{{index}}" wx:for="{{input.vlist}}" wx:for-item="value" wx:key="index">
+				{{value}}
+				</van-radio>
+        </block>
+    </van-radio-group>
+    <block wx:elif="{{input.type=='stepper'}}">
+        <van-cell hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" title="{{input.label}}" titleWidth="{{input.titleWidth||''}}" wx:if="{{input.cell!==false}}">
+            <van-stepper asyncChange="{{input.asyncAhange===true}}" bind:change="{{input.bind||''}}" data-action="{{input.action||'radio'}}" data-endbind="{{input.endbind||false}}" data-method="{{input.method||''}}" data-name="{{input.name||''}}" disableInput="{{input.disableInput===true}}" disabled="{{input.disabled===true}}" inputWidth="{{input.inputWidth||'30px'}}" integer="{{input.disabled!==false}}" max="{{input.max||60}}" min="{{input.min||3}}" name="{{input.name||''}}" showMinus="{{input.showMinus!==false}}" showPlus="{{input.showPlus!==false}}" step="{{input.step||1}}" unit="{{input.unit||''}}" value="{{input.value||''}}"></van-stepper>
+        </van-cell>
+        <van-stepper asyncChange="{{input.asyncAhange===true}}" bind:change="{{input.bind||''}}" data-action="{{input.action||'radio'}}" data-endbind="{{input.endbind||false}}" data-method="{{input.method||''}}" data-name="{{input.name||''}}" disableInput="{{input.disableInput===true}}" disabled="{{input.disabled===true}}" inputWidth="{{input.inputWidth||'30px'}}" integer="{{input.disabled!==false}}" max="{{input.max||60}}" min="{{input.min||3}}" name="{{input.name||''}}" showMinus="{{input.showMinus!==false}}" showPlus="{{input.showPlus!==false}}" step="{{input.step||1}}" unit="{{input.unit||''}}" value="{{input.value||''}}" wx:else></van-stepper>
+    </block>
+    <van-steps active="{{input.active}}" activeColor="{{input.activeColor||'#3388FF'}}" steps="{{input.steps}}" wx:elif="{{input.type=='steps'}}"></van-steps>
+    <block wx:elif="{{input.type=='picker'}}">
+        <van-cell arrowDirection="down" bind:click="{{input.bind||'Lay'}}" customClass="picker {{form.picker[input.name].show?'Show':''}}" data-action="{{input.action||'picker'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name||''}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" title="{{input.label}}" titleWidth="{{input.titleWidth||''}}" value="{{form.picker[input.name]&&form.picker[input.name].index>=0?input.vlist[form.picker[input.name].index]:input.index||input.index===0?input.vlist[ tools.getPickerIndex(input.index,input.value) ]:input.placeholder?input.placeholder:''}}" valueClass="{{form.picker[input.name]&&form.picker[input.name].index>=0||input.index||input.index===0?'black':''}}">
+            <input hidden name="{{input.name||''}}" value="{{form.picker[input.name]&&form.picker[input.name].index>=0?input.value[form.picker[input.name].index]:input.index||input.index===0?input.value[ tools.getPickerIndex(input.index,input.value) ]:''}}"></input>
+        </van-cell>
+        <van-popup overlay widthFull bind:close="{{input.bind||'Lay'}}" closable="{{false}}" data-action="{{input.action||'picker'}}" data-name="{{input.name||''}}" position="bottom" show="{{form.picker[input.name].show||false}}">
+            <van-picker showToolbar bind:cancel="{{input.bind||'Lay'}}" bind:confirm="{{input.bind||'Lay'}}" columns="{{input.vlist}}" data-action="{{input.action||'picker'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name||''}}" defaultIndex="{{(input.index||input.index===0)&&input.value?tools.getPickerIndex(input.index,input.value):0}}" title="选择{{input.label}}"></van-picker>
+        </van-popup>
+    </block>
+    <van-cell hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" title="{{input.label||''}}" titleWidth="{{input.titleWidth||''}}" wx:elif="{{input.type=='rate'}}">
+        <van-rate allowHalf="{{input.allowHalf||false}}" bind:change="{{input.bind||'Lay'}}" color="{{input.color||'#ffd21e'}}" count="{{input.count||5}}" data-action="{{input.action||'radio'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name||''}}" disabled="{{input.disabled||false}}" disabledColor="{{input.disabledColor||'#bdbdbd'}}" icon="{{input.icon||'star'}}" name="{{input.name||''}}" readonly="{{input.readonly||false}}" size="{{input.size||20}}" value="{{form.radio[input.name]>=0?form.radio[input.name]:input.value}}" voidColor="{{input.voidColor||'#c7c7c7'}}" voidIcon="{{input.voidIcon||'star-o'}}"></van-rate>
+        <text style="font-size: 12px;"> {{input.vlist[ (form.radio[input.name]>=0?form.radio[input.name]:input.value)-1 ]}}</text>
+    </van-cell>
+    <van-search background="{{input.background||'none'}}" bind:change="{{input.bind||''}}" data-action="{{input.action||'input'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name||''}}" disabled="{{input.disabled||false}}" focus="{{form.focus==input.name}}" icon="{{input.icon||''}}" inputAlign="{{input.inputAlign||'right'}}" label="{{input.label||''}}" maxlength="{{input.maxlength||-1}}" name="{{input.name||''}}" placeholder="{{input.placeholder||''}}" placeholderStyle="{{input.placeholderStyle||''}}" readonly="{{input.readonly||false}}" shape="{{input.shape||'square'}}" showAction="{{input.showAction||false}}" type="{{input.inputType||'text'}}" value="{{input.value||''}}" wx:elif="{{input.type=='search'}}"></van-search>
+    <template is="forview" data="{{list:input.list,form:form}}" wx:elif="{{input.type=='forview'}}"></template>
+    <block wx:elif="{{input.type=='view'}}">
+        <van-cell bind:click="{{input.bind||''}}" data-action="{{input.action||''}}" data-data="{{input.data||''}}" data-info="{{input.info||''}}" data-name="{{input.name||''}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" icon="{{input.icon||false}}" isLink="{{input.isLink||false}}" label="{{input.desc||''}}" labelClass="{{input.descClass||''}}" rightIcon="{{input.icon||''}}" title="{{input.label}}" titleWidth="{{input.titleWidth||''}}" url="{{input.url||false}}" value="{{input.value||''}}" valueClass="{{input.valueClass||''}}" wx:if="{{input.cell!==false}}"></van-cell>
+        <van-cell bind:click="{{input.bind||''}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" label="{{input.desc||''}}" title="{{input.label||''}}" titleWidth="{{input.titleWidth||''}}" valueClass="{{input.valueClass||''}}" wx:else>
+            <template is="view" data="{{view:input,form:form}}" wx:if="{{input.view}}"></template>
+            <template is="forview" data="{{list:input.vlist,form:form}}" wx:elif="{{input.forview}}"></template>
+            <rich-text nodes="{{input.value}}" wx:elif="{{input.html}}"></rich-text>
+            <block wx:else>{{input.value}}</block>
+        </van-cell>
+    </block>
+    <block wx:elif="{{input.type=='button'}}">
+        <van-cell wx:if="{{input.cell}}">
+            <van-button bindtap="{{input.bind||''}}" customClass="{{input.class}}" data-action="{{input.action||''}}" data-data="{{input.data||''}}" data-info="{{input.info||''}}" data-method="{{input.method||''}}" disabled="{{input.disabled||false}}" icon="{{input.icon||''}}" iconstyle="{{input.iconstyle||''}}" plain="{{input.plain===false?false:true}}" size="{{input.size||'small'}}" type="{{input.buttonType||'default'}}">
+					{{input.text}}
+				</van-button>
+        </van-cell>
+        <van-button bindtap="{{input.bind||''}}" customClass="{{input.class}}" data-action="{{input.action||''}}" data-data="{{input.data||''}}" data-info="{{input.info||''}}" data-method="{{input.method||''}}" disabled="{{input.disabled||false}}" icon="{{input.icon||''}}" iconstyle="{{input.iconstyle||''}}" plain="{{input.plain===false?false:true}}" size="{{input.size||'small'}}" type="{{input.buttonType||'default'}}" wx:else>
+				{{input.text}}
+			</van-button>
+    </block>
+    <button bindtap="{{input.bind||''}}" class="{{input.class||''}}" data-action="{{input.action||''}}" data-data="{{input.data||''}}" data-info="{{input.info||''}}" data-method="{{input.method||''}}" disabled="{{input.disabled||false}}" formType="{{input.formType||''}}" hoverClass="{{input.hoverClass||'button-hover'}}" loading="{{input.loading||false}}" openType="{{input.openType||''}}" plain="{{input.plain||false}}" size="{{input.size||'default'}}" style="{{input.style||''}}" type="{{input.buttonType||'default'}}" wx:elif="{{input.type=='nativeButton'}}">
+			{{input.text}}
+		</button>
+    <input bindconfirm="{{input.bindconfirm||''}}" bindinput="{{input.bind||''}}" class="nativeInput {{input.class||''}}" confirmType="{{input.confirmType||'done'}}" data-action="{{input.action||'input'}}" data-endbind="{{input.endbind||false}}" data-name="{{input.name||''}}" disabled="{{input.disabled||false}}" focus="{{form.focus==input.name}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" maxlength="{{input.maxlength||-1}}" name="{{input.name||''}}" password="{{input.password||false}}" placeholder="{{input.placeholder||''}}" placeholderStyle="{{input.placeholderStyle||''}}" readonly="{{input.readonly||false}}" style="{{input.style||''}}" type="{{input.inputType||'text'}}" value="{{input.value||''}}" wx:elif="{{input.type=='nativeInput'}}"></input>
+    <van-field center required useButtonSlot border="{{input.border===false?false:true}}" clearable="{{input.clearable===false?false:true}}" data-action="{{input.action||'input'}}" data-name="{{input.name||''}}" focus="{{form.focus==input.name}}" label="{{input.label!==false?input.label||'验证码':''}}" name="{{input.name||''}}" placeholder="{{input.placeholder||''}}" placeholderStyle="{{input.placeholderStyle||''}}" toggle="{{form.textareaToggle}}" value="{{input.value||''}}" wx:elif="{{input.type=='vcode'}}">
+        <view class="formSubmit" slot="button">
+            <van-button disabled="{{form.send.Stop}}" size="small" type="default">{{form.send.Stop&&form.send.Tips?form.send.Tips:'发送验证码'}}</van-button>
+            <button class="default" data-action="send" formType="submit" hidden="{{form.send.Stop}}" hoverClass="click" id="send"></button>
+        </view>
+    </van-field>
+    <van-field bind:change="{{input.bind||''}}" bind:confirm="{{input.bindconfirm||''}}" border="{{input.border===false?false:true}}" clearable="{{input.clearable===false?false:true}}" data-action="{{input.action||'input'}}" data-endbind="{{input.endbind||false}}" data-fixed="{{input.type=='textarea'&&(form.popupForm||input.fixed===true)}}" data-method="{{input.method||''}}" data-name="{{input.name||''}}" disabled="{{input.disabled||false}}" fixed="{{input.type=='textarea'&&(form.popupForm||input.fixed===true)}}" focus="{{form.focus==input.name}}" hidden="{{input.isShow?tools.isShow(input.isShow,form):false}}" inputAlign="{{input.align||'right'}}" inputClass="{{input.class||''}}" label="{{input.label||''}}" maxlength="{{input.maxlength||-1}}" name="{{input.name||''}}" placeholder="{{input.placeholder||''}}" placeholderStyle="{{input.placeholderStyle||''}}" readonly="{{input.readonly||false}}" required="{{input.validateRules||input.required?true:false}}" titleWidth="{{input.titleWidth||''}}" toggle="{{form.textareaToggle}}" type="{{input.type}}" value="{{input.value||''}}" wx:elif="{{input.name||input.label}}"></van-field>
+</template>
+<template name="view">
+    <down customClass="{{view.class||''}}" customStyle="{{view.style||''}}" expireTime="{{view.endTime}}" wx:if="{{view.endTime}}"></down>
+    <text bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" id="{{view.id||''}}" style="{{view.style||''}}" wx:elif="{{view.type=='text'}}">{{form&&view.field?tools.showField(view.field,form):view.text}}</text>
+    <image bindtap="{{view.bind?view.bind:view.bind!==false?'Lay':''}}" class="{{view.class||''}}" data-action="{{view.action||'preview'}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-src="{{view.src}}" data-webp="{{view.webp!==false}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" id="{{view.id||''}}" mode="{{view.mode||'widthFix'}}" src="{{view.src}}" style="{{view.style||''}}" webp="{{view.webp!==false}}" wx:elif="{{view.type=='image'}}"></image>
+    <navigator class="{{view.class||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false?'hover':'none'}}" id="{{view.id||''}}" openType="{{view.open||'navigate'}}" style="{{view.style||''}}" url="{{view.url}}" wx:elif="{{view.type=='link'}}">{{view.text}}</navigator>
+    <van-icon bind:click="{{view.bind||''}}" customClass="{{view.class||''}}" customStyle="{{view.style||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" id="{{view.id||''}}" name="{{view.name||''}}" wx:elif="{{view.type=='icon'}}"></van-icon>
+    <rich-text bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-title="{{form&&view.field?tools.showField(view.field,form):view.text}}" nodes="{{form&&view.field?tools.showField(view.field,form):view.text}}" style="{{view.style||''}}" wx:elif="{{view.type=='html'}}"></rich-text>
+    <view class="{{view.class||''}}" style="{{view.style||''}}" wx:elif="{{view.type=='swiper'}}">
+        <swiper autoplay="{{view.autoplay!==false}}" bindchange="{{view.bind||''}}" current="{{form.picker[view.name]>=0?form.picker[view.name]:view.current>=0?view.current:0}}" data-action="swiper" data-endbind="{{view.endbind||''}}" data-name="{{view.name||'swiper'}}" duration="{{view.duration||500}}" indicatorDots="{{view.dots!==false}}" interval="{{view.interval||5000}}" style="{{form.swiperHeight[view.name][form.picker[view.name]>=0?form.picker[view.name]:view.current>=0?view.current:0]||''}};transition: all 0.5s;" vertical="{{view.vertical||false}}">
+            <swiper-item wx:for="{{view.vlist}}" wx:key="index">
+                <view id="swiper-{{view.name}}-{{index}}" wx:if="{{view.forview}}">
+                    <forview bind:Event="Lay" data="{{[item]}}" form="{{form}}"></forview>
+                </view>
+                <image bindtap="{{item.bind||'Lay'}}" data-action="{{item.action||'url'}}" data-data="{{item.data||''}}" data-info="{{item.info||''}}" data-method="{{item.method||''}}" src="{{item.src}}" webp="{{true}}" wx:elif="{{item.src}}"></image>
+                <view bindtap="{{item.bind||'Lay'}}" data-action="{{item.action||'url'}}" data-data="{{item.data||''}}" data-info="{{item.info||''}}" data-method="{{item.method||''}}" hoverClass="{{item.hover?item.hover:item.hover!==false?'hover':'none'}}" src="{{item.src}}" wx:else>{{item.text}}</view>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="bfile" style="{{view.style||''}}" wx:elif="{{view.class=='bfile'}}">
+        <view wx:for="{{view.image}}" wx:for-item="url" wx:key="url">
+            <image hidden bindload="Lay" data-action="intoPreview" data-field="{{view.field}}" data-src="{{url}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" wx:if="{{view.field}}"></image>
+            <view>
+                <view>
+                    <image bindtap="Lay" data-action="allPreview" data-field="{{view.field}}" data-src="{{url}}" mode="widthFix" src="{{url}}" webp="{{true}}"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="upload autoright" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" style="{{view.style||''}}" wx:elif="{{view.class=='upload'}}">
+        <view class="top">
+            <view class="tips">
+                <view>
+                    <text class="flex-item">{{form.upload.note}}</text>
+                </view>
+            </view>
+            <view class="button">
+                <van-button bindtap="Lay" data-action="upload" data-method="choose" icon="add-o" iconstyle="color:#5FB878;margin:-3px 2px 0 0;vertical-align: middle;font-size:16px;" size="small" type="default">{{form.upload.button||'上传图片'}}</van-button>
+            </view>
+        </view>
+        <view class="single" hidden="{{!form.upload.list.ing[0]&&!form.upload.list.suc[0]&&!form.upload.defaultPic}}" wx:if="{{form.upload.max===1}}">
+            <image bindtap="Lay" data-action="preview" data-data="{{form.upload.list.ing[0]||form.upload.list.suc[0]||form.upload.defaultPic}}" mode="widthFix" src="{{form.upload.list.ing[0]||form.upload.list.suc[0]||form.upload.defaultPic}}" style="{{form.upload.defaultPicStyle||''}}"></image>
+        </view>
+        <block wx:else>
+            <block wx:if="{{form.upload.number[key]>0||key=='del'}}" wx:for="{{form.upload.list}}" wx:for-index="key" wx:for-item="list" wx:key="index">
+                <view class="list" wx:if="{{key!='del'}}">
+                    <view class="title">
+                        <text>{{key=='ing'?'待传':key=='err'?'失败':'已传'}}({{form.upload.number[key]}})</text>{{form.upload.tips[key]||''}}</view>
+                    <view class="pic" wx:for="{{list}}" wx:for-item="url" wx:key="*this">
+                        <view>
+                            <view bindtap="Lay" data-action="uploadPreview" data-data="{{url}}" data-method="{{key}}" wx:if="{{tools.isImage(url)===true}}">
+                                <view class="text err" wx:if="{{form.upload.msg[url]}}">
+                                    <view>{{form.upload.msg[url]}}</view>
+                                </view>
+                                <image mode="widthFix" src="{{url}}"></image>
+                            </view>
+                            <view bindtap="Lay" data-info="该类型文件暂不支持在移动端预览" wx:else>
+                                <view class="text file">
+                                    <view>{{tools.isImage(url)}}</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view bindtap="Lay" class="status" data-action="upload" data-data="{{key}}" data-info="{{index}}" data-method="delete">
+							删除
+						</view>
+                    </view>
+                </view>
+                <block wx:else>
+                    <input hidden maxlength="-1" name="delfile[{{index}}]" value="{{item}}" wx:for="{{list}}" wx:key="*this"></input>
+                </block>
+            </block>
+        </block>
+        <input hidden name="uploadCount" value="{{form.upload.number.count||0}}"></input>
+        <view style="width:0px;height:0px;overflow:hidden;">
+            <image bindload="Lay" data-action="uploadInit" data-custom-options="{{view.options||false}}" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" style="width:0;height:0;"></image>
+        </view>
+    </view>
+    <template is="notes" data="{{note:view.vlist,style:'border-bottom:1px solid #eee;'}}" wx:elif="{{view.type=='note'}}"></template>
+    <template is="input" data="{{input:view,form:form}}" wx:elif="{{view.name}}"></template>
+    <view animation="{{view.animation||false}}" bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" id="{{view.id||''}}" style="{{view.style||''}}" wx:elif="{{view.type=='view'||view.class||view.bind||view.style}}">{{view.text}}</view>
+    <block wx:elif="{{view.text}}">{{view.text}}</block>
+</template>
+<template name="form">
+    <template is="notes" data="{{note:Form.note}}" wx:if="{{Form.note}}"></template>
+    <template is="notice" data="{{notice:Form.notice}}" wx:if="{{Form.notice.text}}"></template>
+    <template is="forview" data="{{list:Form.html,form:Form.form}}" wx:if="{{Form.html}}"></template>
+    <form bindsubmit="{{Form.bindsubmit||'Lay'}}" data-action="formSubmit" data-url="{{Form.postUrl||false}}" wx:if="{{Form.input}}">
+        <view class="{{Form.formclass||'form'}}">
+            <van-cell-group border="{{false}}">
+                <block wx:for="{{Form.input}}" wx:for-index="inputindex" wx:for-item="input" wx:key="inputindex">
+                    <template is="input" data="{{input:input,form:Form.form}}" wx:if="{{input.name||input.label}}"></template>
+                    <block wx:elif="{{input.type=='view'}}">
+                        <template is="view" data="{{view:input,form:Form.form}}" wx:if="{{!input.list}}"></template>
+                        <template is="forview" data="{{list:[input],form:Form.form}}" wx:else></template>
+                    </block>
+                </block>
+            </van-cell-group>
+            <view class="formSubmit {{Form.submitClass||''}}" style="margin:10px 0;{{Form.submitStyle||''}}" wx:for="{{Form.submit}}" wx:for-item="submit" wx:key="value">
+                <van-button bind:click="{{submit.bind||''}}" block="{{submit.block!==false}}" data-action="{{submit.action||''}}" data-data="{{submit.data||''}}" data-info="{{submit.info||''}}" data-method="{{submit.method||''}}" disabled="{{submit.disabled===true}}" loading="{{Form.form.formLoad||Form.form.upload.being}}" loadingText="{{Form.form.upload.being?'正在上传图片中':'正在提交中'}}" plain="{{submit.plain||false}}" size="{{submit.size||'normal'}}" type="{{submit.type||'danger'}}">
+					{{submit.value}}
+				</van-button>
+                <button class="default" formType="submit" hidden="{{submit.bind||Form.form.formLoad||Form.form.upload.being||submit.disabled===true}}" hoverClass="click"></button>
+            </view>
+        </view>
+    </form>
+    <template is="forview" data="{{list:Form.bootomhtml,form:Form.form}}" wx:if="{{Form.bootomhtml}}"></template>
+    <template is="notes" data="{{note:Form.bottomnote,style:'border-top:1px solid #eee;'}}" wx:if="{{Form.bottomnote}}"></template>
+    <view class="formLoad" hidden="{{Form.form.formLoad!==true}}"></view>
+</template>
+<template name="popupform">
+    <van-popup overlay widthFull bind:close="Popup" closeOnClickOverlay="{{false}}" data-action="closeForm" position="{{Form.position||'bottom'}}" show="{{Form.show}}" title="{{Form.title}}" titleStyle="font-weight:700;{{Form.titleStyle||'color:red'}}" zIndex="10000">
+        <template is="form" data="{{Form:Form}}"></template>
+    </van-popup>
+</template>
+<template name="forview7">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="view" data="{{view:view,form:form}}" wx:if="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="view" data="{{view:v,form:form}}" wx:for="{{view.list}}" wx:for-item="v" wx:key="index"></template>
+        </view>
+    </block>
+</template>
+<template name="forview6">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:6}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:if="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview7" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="forview5">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:5}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:if="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview6" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="forview4">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:4}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:if="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview5" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="forview3">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:3}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:elif="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview4" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="forview2">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:2}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:elif="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview3" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="forview">
+    <block wx:for="{{list}}" wx:for-item="view" wx:key="index">
+        <template is="tabs" data="{{...view,form:form,Findex:1}}" wx:if="{{view.type=='tabs'}}"></template>
+        <template is="view" data="{{view:view,form:form}}" wx:elif="{{!view.list}}"></template>
+        <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+            <template is="forview2" data="{{list:view.list,form:form}}"></template>
+        </view>
+    </block>
+</template>
+<template name="tabs">
+    <van-tabs active="{{active||0}}" animated="{{animated||false}}" bind:change="{{bind||''}}" bind:click="{{bindClick||''}}" bind:disabled="{{bindDisabled||''}}" border="{{border!==false}}" color="{{color||false}}" customClass="{{class||''}}" duration="{{duration||0.3}}" lineWidth="{{lineWidth||-1}}" sticky="{{sticky||false}}" swipeThreshold="{{swipeThreshold||4}}" swipeable="{{swipeable||false}}" type="{{styleType||'line'}}" zIndex="{{zIndex||1}}">
+        <van-tab disabled="{{item.disabled===true}}" dot="{{item.dot===true}}" info="{{item.info||null}}" title="{{item.title}}" titleStyle="{{item.titleStyle||''}}" wx:for="{{list}}" wx:key="title">
+            <template is="forview{{Findex+1}}" data="{{list:item.list,form:form}}"></template>
+        </van-tab>
+    </van-tabs>
+</template>
+<template name="contact">
+    <van-popup bind:click-overlay="Popup" bind:close="Popup" closable="{{closable}}" closeOnClickOverlay="{{true}}" customStyle="{{customstyle}}" data-action="close" data-index="{{index}}" duration="{{duration}}" overlay="{{overlay}}" overlayStyle="{{overlaystyle}}" position="{{position}}" safeAreaInsetBottom="{{safeareainsetbottom}}" safeAreaInsetTop="{{safeareainsettop}}" scroll="{{scroll}}" show="{{show}}" zIndex="{{zindex}}">
+        <view class="ly_contact">
+            <view class="header">
+                <image mode="widthFix" src="{{info.avatar}}" webp="{{true}}" wx:if="{{info.avatar}}"></image>
+                <view>{{info.name}}</view>
+            </view>
+            <block wx:for="{{info}}" wx:for-index="type" wx:key="type">
+                <view class="list" wx:if="{{type!='name'&&type!='avatar'}}" wx:for="{{item}}" wx:for-item="items" wx:key="index">
+                    <view class="type">{{items.label}}：</view>
+                    <view class="value">{{items.value}}</view>
+                    <van-button plain bindtap="Lay" data-action="copy" data-info="{{items.value}}" size="small" type="info" wx:if="{{type=='qq'}}">复制号码</van-button>
+                    <van-button plain bindtap="Lay" data-action="phone" data-info="{{items.value}}" size="small" type="info" wx:if="{{type=='phone'}}">拨打电话</van-button>
+                </view>
+            </block>
+            <view class="bottom">
+                <view>声明：为了安全起见，不要轻易与卖家进行线下交易；</view>
+                <view>非平台线上交易的项目，出现任何后果均与互站无关；</view>
+                <view>无论卖家以何理由要求线下交易的，请联系管理举报。</view>
+            </view>
+        </view>
+    </van-popup>
+</template>
+<template name="store">
+    <view class="store-top">
+        <view class="row-flex">
+            <view class="avatar">
+                <image mode="widthFix" src="{{store.avatar}}" webp="{{true}}" wx:if="{{store.avatar}}"></image>
+            </view>
+            <view class="flex-item info">
+                <view class="name">
+									{{store.name}} <view class="{{store.rev}}"></view>
+                </view>
+                <view class="store-score">
+                    <view wx:for="{{store.score}}" wx:key="index">
+                        <text>{{index}}</text>
+                        <view class="{{item.trend}}">
+										{{item.value}} <van-icon name="shang{{item.trend=='down'?'-copy-copy':''}}"></van-icon>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <van-icon bindtap="Lay" customClass="bond" data-info="商家暂未缴纳保证金" name="jifen1" wx:if="{{!store.bond}}"></van-icon>
+        <van-icon bindtap="Lay" customClass="bond suc" data-info="<span style=\"color:#2E8A11\">商家已缴纳保证金 <span style=\"color:#ff6600\">{{store.bond}}</span> 元</span>" name="jifen1" wx:else></van-icon>
+    </view>
+</template>
+<template name="list_top">
+    <view style="height:{{topHeight}}px" wx:if="{{topHeight}}"></view>
+    <view class="top fixed">
+        <template is="store" data="{{store:html.store}}" wx:if="{{html.store}}"></template>
+        <van-tabbar active="{{html.tabs[html.store?html.type:html.par].index}}" bind:change="tabsChange" data-field="{{html.store?'type':'par'}}" fixed="{{false}}" wx:if="{{html.tabs}}">
+            <van-tabbar-item icon="{{item.icon}}" wx:for="{{html.tabs}}" wx:key="name">{{item.name}}</van-tabbar-item>
+        </van-tabbar>
+        <van-search bind:change="searchChange" bind:search="searchSubmit" customClass="top-search" placeholder="请输入搜索关键词" value="{{search}}" wx:if="{{html.type}}"></van-search>
+        <view class="sort row-flex" wx:if="{{html.sort}}">
+            <view catchtap="sortChange" class="flex-item {{(sortValue==item||sortValue=='dm'&&item=='am')&&'on'}}" data-name="{{index}}" data-value="{{sortValue=='am'&&item=='am'?'dm':item}}" wx:for="{{html.sort}}" wx:key="index">
+				{{index}}<view class="updown" wx:if="{{item=='am'}}">
+                    <view class="up {{sortValue=='dm'&&'on'}}"></view>
+                    <view class="down {{sortValue=='am'&&'on'}}"></view>
+                </view>
+            </view>
+            <view bindtap="filterShow" class="flex-item {{filter.icon&&'on'}}" wx:if="{{html.menu}}">
+				筛选<van-icon customClass="filter-icon" name="filter-o"></van-icon>
+            </view>
+        </view>
+        <van-popup closeOnClickOverlay heightFull bind:click-overlay="filterHide" closable="{{false}}" customStyle="width:88%;" overlay="{{true}}" position="right" show="{{filter.show!==''}}">
+            <form bindreset="filterReset" bindsubmit="filterSubmit">
+                <view class="filter_box">
+                    <view class="filter_index">
+                        <view class="filter_t">
+                            <van-icon bindtap="filterHide" customClass="middle2 back" name="arrow-left"></van-icon>
+                            <view class="title">{{html.name}}筛选</view>
+                            <button bindtap="formSubmit" class="ok-btn" formType="submit">确认</button>
+                        </view>
+                        <view class="filter_c">
+                            <view class="filter_s">
+                                <view catchtap="Fselect" class="ul" id="{{item.tid}}" wx:if="{{item.name1!='.CS源文件'}}" wx:for="{{html.menu}}" wx:key="name1">
+                                    <input hidden="true" name="menu-{{item.tid}}" type="number" value="{{filter.selectValue[item.tid]}}"></input>
+                                    <view class="name"> {{item.name1}}</view>
+                                    <view class="check">
+                                        <input disabled name="" placeholder="不限" placeholderStyle="color:#999" type="text" value="{{filter.selectName[item.tid]}}"></input>
+                                    </view>
+                                    <view class="arrow">
+                                        <view class="rightArrow"></view>
+                                    </view>
+                                    <view class="filter_select {{filter.show==item.tid?'show':'hide'}}">
+                                        <view class="filter_t">
+                                            <van-icon catchtap="Fselect" customClass="middle2 back" id="back" name="arrow-left"></van-icon>
+                                            <view class="title">{{item.name1}}</view>
+                                        </view>
+                                        <view catchtap="Fselect" class="ul" data-id="{{item.tid}}" data-name="" data-value="" id="value">
+                                            <view class="name">不限</view>
+                                            <van-icon customClass="middle2" name="success" wx:if="{{!filter.selectValue[item.tid]}}"></van-icon>
+                                        </view>
+                                        <view catchtap="Fselect" class="ul" data-id="{{item.tid}}" data-name="{{items.name2}}" data-value="{{items.tid}}" id="value" wx:for="{{item.lists}}" wx:for-item="items" wx:key="index">
+                                            <view class="name">{{items.name2}}</view>
+                                            <van-icon customClass="middle2" name="success" wx:if="{{filter.selectValue[item.tid]===items.tid}}"></van-icon>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="filter_a">
+                            <view class="ul">
+                                <view class="name">价格范围</view>
+                                <view class="money">
+                                    <input bindinput="inputChange" id="am" name="am" placeholder="下限金额" placeholderStyle="color:#999" type="number" value="{{filter.money.am}}"></input>
+                                    <view>-</view>
+                                    <input bindinput="inputChange" id="dm" name="dm" placeholder="上限金额" placeholderStyle="color:#999" type="number" value="{{filter.money.dm}}"></input>
+                                </view>
+                            </view>
+                            <view class="ul" wx:if="{{html.attach}}">
+                                <view class="name">其他选项</view>
+                                <view class="attach">
+                                    <checkbox-group bindchange="checkboxChange" id="{{i}}" name="{{i}}" wx:for="{{html.attach}}" wx:for-index="i" wx:key="i">
+                                        <label>
+                                            <checkbox checked="{{filter.checkbox[i]}}" value="1"></checkbox>
+                                            <view>{{item}}</view>
+                                        </label>
+                                    </checkbox-group>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="filter_b">
+                            <view class="row-flex">
+                                <view class="flex-item">
+                                    <button formType="reset">重置</button>
+                                </view>
+                                <view class="flex-item">
+                                    <button class="ok-btn" formType="submit">确认</button>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </form>
+        </van-popup>
+    </view>
+</template>
+<wxs module="tools" src="../utils/tools.wxs" />

@@ -1,0 +1,60 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin}}"></template>
+<view class="login_wrap">
+    <view class="portrait">
+        <image src="{{userInfo.avatarUrl}}" wx:if="{{userInfo.avatarUrl}}"></image>
+        <van-icon customStyle="font-size:80px;color:#eee;" name="touxiang" wx:else></van-icon>
+    </view>
+    <view class="login_content" wx:if="{{options.action=='authorize'}}">
+        <view style="margin-top:50px;">
+            <van-button block bind:getuserinfo="bindGetUserInfo" data-action="formSubmit" data-url="get/login/authorize" openType="getUserInfo" size="normal" type="primary">微信{{!userInfo.language?'授权':''}}登录</van-button>
+        </view>
+        <view class="login_bottom">
+            <navigator class="login_back" hoverClass="other-navigator-hover" id="" openType="switchTab" url="/pages/index/index">
+                  返回首页
+                </navigator>
+        </view>
+    </view>
+    <view class="login_wrap" wx:elif="{{options.action=='binding'}}">
+        <view class="login_content form">
+            <van-tabs active="{{current}}" color="#33cd5f" type="card">
+                <van-tab title="已有帐号">
+                    <form bindsubmit="formSubmit" data-action="formSubmit" data-url="login?islogin=0">
+                        <input hidden maxlength="-1" name="oauthAvatar" value="{{userInfo.avatarUrl}}"></input>
+                        <input hidden maxlength="-1" name="oauthNick" value="{{userInfo.nickName}}"></input>
+                        <input hidden maxlength="-1" name="login" value="{{Form.form.input.login||'name'}}"></input>
+                        <van-tabs animated bind:change="loginTypeChange" data-action="input" data-name="login">
+                            <van-tab title="账号密码登录">
+                                <template is="forview" data="{{list:Form.input.name.list,form:Form.form}}"></template>
+                            </van-tab>
+                            <van-tab title="手机验证登录">
+                                <template is="forview" data="{{list:Form.input.phone.list,form:Form.form}}"></template>
+                            </van-tab>
+                        </van-tabs>
+                        <view style="margin-top:50px;">
+                            <button class="formbutton" data-method="bind" data-title="登录" formType="submit" hoverClass="hover">登录并绑定微信</button>
+                            <button class="notbind" data-method="notbind" data-title="登录" formType="submit">登录但不绑定微信</button>
+                        </view>
+                    </form>
+                    <view class="login_bottom">
+                        <navigator class="gray" hoverClass="hover" id="" openType="switchTab" url="/pages/index/index">
+                  返回首页
+                </navigator>
+                        <navigator class="gray" hoverClass="hover" url="{{Form.fetchUrl}}">忘记密码</navigator>
+                    </view>
+                </van-tab>
+                <van-tab title="新注册">
+                    <form bindsubmit="formSubmit" data-action="formSubmit" data-url="reg?islogin=0" style="margin-top:10px;">
+                        <input hidden maxlength="-1" name="oauthAvatar" value="{{userInfo.avatarUrl}}"></input>
+                        <input hidden maxlength="-1" name="oauthNick" value="{{userInfo.nickName}}"></input>
+                        <template is="forview" data="{{list:Form.input.reg.list,form:Form.form}}"></template>
+                        <view style="margin-top:10px;">
+                            <button class="formbutton" data-method="bind" data-title="注册" formType="submit">注册并绑定微信</button>
+                            <button class="notbind" data-method="notbind" data-title="注册" formType="submit">注册但不绑定微信</button>
+                        </view>
+                    </form>
+                </van-tab>
+            </van-tabs>
+        </view>
+    </view>
+</view>

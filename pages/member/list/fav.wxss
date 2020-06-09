@@ -1,0 +1,114 @@
+@import "../../../__wuBaseWxss__/0.wxss";
+
+.favList .item {
+    overflow: hidden;
+    color: #999;
+    position: relative;
+    margin: 10px 10px 0 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.favList .pic {
+    color: #333;
+    font-size: 14px;
+    overflow: hidden;
+    width: 100px;
+    text-align: center;
+    height: 80px;
+    line-height: 80px;
+    background: #fafafa;
+    border: 1px #eee solid;
+}
+
+.favList .pic image {
+    width: 100px;
+    height: 80px;
+}
+
+.favList .info {
+    position: relative;
+    height: 80px;
+    margin-left: 10px;
+}
+
+.favList .info .tit {
+    line-height: 16px;
+    font-size: 12px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.favList .info .bottom {
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+    width: 100%;
+    line-height: 25px;
+}
+
+.favList .info .bottom .money {
+    color: #ff5000;
+    padding-right: 5px;
+}
+
+.favList .info .bottom .money:before {
+    content: "￥";
+    font-size: 12px;
+}
+
+.favList .info .bottom .ListSh {
+    font-size: 18px;
+    padding: 0 0 5px 15px;
+    line-height: 25px;
+    color: #999;
+}
+
+.favList .info .action {
+    line-height: 20px;
+    text-align: center;
+    background-color: rgba(255,255,255,.9);
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    transform: translateY(100%);
+}
+
+.favList .info .action .van-icon {
+    line-height: 28px;
+    width: 100%;
+    font-size: 20px;
+    color: #fff;
+}
+
+.favList .info .icon {
+    margin-top: 18px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: #f60;
+}
+
+.action .row-flex .flex-item .icon.delete {
+    background: #f00;
+}
+
+.action .row-flex .flex-item .icon.up {
+    background: #498BF8;
+}
+
+.action .row-flex .flex-item .icon.cross {
+    background: #c1c1c1;
+}
+
+.action .row-flex .flex-item .icon.down {
+    background: #3eabc3;
+}
+
+.action .row-flex .flex-item:last-child {
+    flex: 0.7;
+}

@@ -1,0 +1,45 @@
+@import "../../../__wuBaseWxss__/0.wxss";
+
+.messageList .item {
+    position: relative;
+    overflow: hidden;
+    margin: 10px 10px 0 10px;
+}
+
+.messageList .state {
+    background: #f00;
+    width: 8px;
+    height: 8px;
+    top: 50%;
+    left: 0;
+    position: absolute;
+    margin-top: -5px;
+    border-radius: 50px;
+}
+
+.messageList .state.v1 {
+    background: #c1c1c1;
+}
+
+.messageList .info {
+    margin-left: 18px;
+    background: #fff;
+    padding: 10px 10px 10px 13px;
+    line-height: 16px;
+    border: 1px #eee solid;
+    border-radius: 3px;
+}
+
+.messageList .info .time {
+    color: #999;
+    line-height: 12px;
+    padding-bottom: 5px;
+}
+
+.messageList .info text {
+    padding-right: 15px;
+}
+
+.messageList .info .text {
+    text-indent: -6px;
+}

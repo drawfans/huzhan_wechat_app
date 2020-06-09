@@ -1,0 +1,125 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <van-tabs animated sticky swipeable active="{{listIndex}}" bind:change="tabChange" swipeThreshold="7">
+        <van-tab title="{{tab.name}}" wx:if="{{tab.value=='code'||tab.value=='shop'||tab.num>0}}" wx:for="{{Form.tabs}}" wx:for-index="id" wx:for-item="tab" wx:key="value">
+            <view class="shopList" wx:if="{{tab.value=='shop'}}">
+                <view animation="{{itemAnimation[item.bh]}}" class="item" wx:for="{{listdata[id].list}}" wx:key="bh">
+                    <view class="row-flex">
+                        <navigator class="avatar" hoverClass="hover" url="{{item.url}}">
+                            <image src="{{item.avatar}}!t40" webp="{{true}}"></image>
+                        </navigator>
+                        <view class="flex-item shop">
+                            <view class="name">
+                                <navigator hoverClass="hover" url="{{item.url}}">{{item.name}}</navigator>
+                            </view>
+                            <view class="{{item.rev}}"></view>
+                            <view class="info">
+                                <view class="num">
+                                    宝贝数：{{item.goods}}
+                                </view>
+                                <van-icon catchtap="ListSh" id="{{item.bh}}" name="ellipsis"></van-icon>
+                            </view>
+                        </view>
+                        <view animation="{{ListSh[item.bh]}}" class="action {{ListSh[item.bh]?'show':'hide'}}">
+                            <view catchtap="ListSh" class="row-flex" id="{{item.bh}}">
+                                <view bindtap="action" class="flex-item" data-action="del" data-id="{{index}}">
+                                    <view class="icon delete">
+                                        <van-icon name="delete"></van-icon>
+                                    </view>
+                                    <view>删除收藏</view>
+                                </view>
+                                <view bindtap="action" class="flex-item" data-action="down" data-id="{{index}}" hidden="{{item.top!=1}}">
+                                    <view class="icon down">
+                                        <van-icon name="arrow-down"></van-icon>
+                                    </view>
+                                    <view>取消置顶</view>
+                                </view>
+                                <view bindtap="action" class="flex-item" data-action="up" data-id="{{index}}" hidden="{{item.top==1}}">
+                                    <view class="icon up">
+                                        <van-icon name="arrow-up"></van-icon>
+                                    </view>
+                                    <view>置顶收藏</view>
+                                </view>
+                                <view class="flex-item">
+                                    <view class="icon cross">
+                                        <van-icon name="cross"></van-icon>
+                                    </view>
+                                    <view>关闭</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="favList" id="main" wx:else>
+                <view animation="{{itemAnimation[item.bh]}}" class="item" wx:for="{{listdata[id].list}}" wx:key="bh">
+                    <view class="row-flex">
+                        <view class="pic">
+                            <navigator url="{{item.url}}" wx:if="{{item.url!==false}}">
+                                <image mode="widthFix" src="{{item.pic}}" webp="{{true}}" wx:if="{{item.pic}}"></image>
+                                <text wx:else>{{item.typename}}</text>
+                            </navigator>
+                            <block wx:else>
+                                <image src="{{item.pic}}" webp="{{true}}" wx:if="{{item.pic}}"></image>
+                                <text wx:else>{{item.typename}}</text>
+                            </block>
+                        </view>
+                        <view class="flex-item info">
+                            <view class="tit">
+                                <navigator url="{{item.url}}" wx:if="{{item.url!==false}}">{{item.tit}}</navigator>
+                                <block wx:else>
+                                {{item.tit}}
+                            </block>
+                            </view>
+                            <view class="bottom">
+                                <view class="row-flex">
+                                    <view class="flex-item money">{{item.money}}</view>
+                                    <view class="flex-item">
+                                        <text class="{{item.state.class||''}}">{{item.state.text}}</text>
+                                    </view>
+                                    <van-icon catchtap="ListSh" class="ListSh" id="{{item.bh}}" name="ellipsis"></van-icon>
+                                </view>
+                            </view>
+                            <view animation="{{ListSh[item.bh]}}" class="action {{ListSh[item.bh]?'show':'hide'}}">
+                                <view catchtap="ListSh" class="row-flex" id="{{item.bh}}">
+                                    <view bindtap="action" class="flex-item" data-action="cart" data-id="{{index}}" wx:if="{{item.card}}">
+                                        <view class="icon">
+                                            <van-icon name="cart-o"></van-icon>
+                                        </view>
+                                        <view>放购物车</view>
+                                    </view>
+                                    <view bindtap="action" class="flex-item" data-action="del" data-id="{{index}}">
+                                        <view class="icon delete">
+                                            <van-icon name="delete"></van-icon>
+                                        </view>
+                                        <view>删除收藏</view>
+                                    </view>
+                                    <view bindtap="action" class="flex-item" data-action="down" data-id="{{index}}" hidden="{{item.top!=1}}">
+                                        <view class="icon down">
+                                            <van-icon name="arrow-down"></van-icon>
+                                        </view>
+                                        <view>取消置顶</view>
+                                    </view>
+                                    <view bindtap="action" class="flex-item" data-action="up" data-id="{{index}}" hidden="{{item.top==1}}">
+                                        <view class="icon up">
+                                            <van-icon name="arrow-up"></van-icon>
+                                        </view>
+                                        <view>置顶收藏</view>
+                                    </view>
+                                    <view class="flex-item">
+                                        <view class="icon cross">
+                                            <van-icon name="cross"></van-icon>
+                                        </view>
+                                        <view>关闭</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </van-tab>
+    </van-tabs>
+    <template is="list_bottom" data="{{...listdata[listIndex],loading:loading}}"></template>
+</block>

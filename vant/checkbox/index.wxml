@@ -1,0 +1,10 @@
+<view class="van-checkbox  custom-class {{value&&checkedClass||''}}">
+    <view bindtap="toggle" class="van-checkbox__icon-wrap">
+        <slot name="icon" wx:if="{{useIconSlot}}"></slot>
+        <van-icon class="{{utils.bem( 'checkbox__icon',[ shape,{disabled:disabled,checked:value} ] )}}" customClass="icon-class" customStyle="line-height: 18px;" name="success" style="{{checkedColor&&value&&!disabled?'border-color:'+checkedColor+'; color:'+checkedColor:''}}" wx:else></van-icon>
+    </view>
+    <view bindtap="onClickLabel" class="label-class {{utils.bem( 'checkbox__label',[ labelPosition,{disabled:disabled} ] )}}" style="{{!value?noColor?'color:'+noColor:'color:#666':''}}">
+        <slot></slot>
+    </view>
+</view>
+<wxs module="utils" src="../wxs/utils.wxs" />

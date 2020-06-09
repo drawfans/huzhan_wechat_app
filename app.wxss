@@ -1,0 +1,21 @@
+[is="utils/forview/index"] {
+    display: contents;
+}
+
+[is="vant/goods-action-button/index"] {
+    flex: 1;
+}
+
+[is="vant/tabbar-item/index"] {
+    flex: 1;
+}
+
+navigator {
+    color: #333;
+}
+
+page {
+    font-size: 14px;
+    color: #333;
+    background: #f2f2f2;
+}

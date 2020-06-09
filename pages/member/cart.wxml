@@ -1,0 +1,111 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin}}"></template>
+<view class="flex-item cartList" style="padding-bottom:{{Form.pd?50+Form.pd:50}}px" wx:if="{{!spin}}">
+    <template is="forview" data="{{list:listdata.nologin}}" wx:if="{{listdata.nologin}}"></template>
+    <view animation="{{delAnimation[shop.sell]}}" class="item" wx:if="{{getdata.page>=1}}" wx:for="{{listdata.list}}" wx:for-index="id" wx:for-item="shop" wx:key="sell">
+        <view class="row-flex shops">
+            <view class="flex-item">
+                <view class="row-flex">
+                    <view style="width:30px;">
+                        <van-checkbox bind:change="goodChange" disabled="{{shop.sdisabled}}" name="{{'shop_'+id}}" type="circle" value="{{shop.schecked}}"></van-checkbox>
+                    </view>
+                    <view class="flex-item">
+                        <navigator url="{{shop.url}}">{{shop.name}}</navigator>
+                    </view>
+                </view>
+            </view>
+            <view catchtap="ListSh" id="{{id}}" style="width:35px;text-align:right;height:20px;">
+                <van-icon color="#999999" name="ellipsis" size="22px"></van-icon>
+            </view>
+        </view>
+        <view animation="{{delAnimation[data.bh]}}" wx:for="{{shop.goods}}" wx:for-index="gid" wx:for-item="data" wx:key="bh">
+            <view class="row-flex info">
+                <view class="middle" style="width:30px;">
+                    <van-checkbox bind:change="goodChange" disabled="{{data.gdisabled}}" name="{{'good_'+id+'_'+data.bh}}" shape="square" value="{{data.gchecked}}"></van-checkbox>
+                </view>
+                <view class="pic middle center" style="width:78px;">
+                    <image bindtap="Lay" data-action="preview" data-src="{{data.pic.value}}" src="{{data.pic.value}}" wx:if="{{data.pic.type=='image'}}"></image>
+                    <text wx:else>{{data.pic.value}}</text>
+                </view>
+                <view class="flex-item">
+                    <navigator class="tit" url="{{data.goodurl}}">[{{data.typename}}]{{data.tit}}</navigator>
+                    <view class="bot">
+                        <view class="gicon" wx:if="{{!data.gdisabled}}">
+                            <view bind:change="goodChange" bindtap="Lay" class="protect tips view" data-action="bond" data-info="已加入消保，商家已缴纳保证金 300 元">
+                保
+                </view>
+                        </view>
+                        <view class="{{data.error.class}}" wx:if="{{data.error.text}}">
+                {{data.error.text}}
+                <navigator url="{{data.error.link}}" wx:if="{{data.error.link}}">查看详情</navigator>
+                        </view>
+                    </view>
+                </view>
+                <view class="money tright" style="width:80px;">
+                    <view class="text">￥<view class="num">{{data.money}}</view>
+                    </view>
+                </view>
+                <view animation="{{ListSh[id]}}" catchtap="ListSh" class="row-flex more {{ListSh[id]?'show':'hide'}}" id="{{id}}">
+                    <view catchtap="Lay" class="flex-item" data-action="contact" data-info="{{shop.sell+'/'+data.type}}">
+                        <view class="action">
+                            <van-icon customStyle="background:#498BF8;" name="chat-o"></van-icon>
+                            <view>联系商家</view>
+                        </view>
+                    </view>
+                    <view catchtap="action" class="flex-item" data-action="cart_delete" data-gid="{{gid}}" data-id="{{id}}">
+                        <view class="action">
+                            <van-icon customStyle="background:#ff5000;" name="delete"></van-icon>
+                            <view>删除商品</view>
+                        </view>
+                    </view>
+                    <view catchtap="action" class="flex-item" data-action="fav" data-gid="{{gid}}" data-id="{{id}}">
+                        <view class="action">
+                            <van-icon customStyle="background:#ff9402;" name="star-o"></van-icon>
+                            <view>移至收藏</view>
+                        </view>
+                    </view>
+                    <view class="flex-item">
+                        <view class="action">
+                            <van-icon name="cross"></van-icon>
+                            <view>关闭</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="row-flex attach" wx:if="{{data.type=='code'&&!data.gdisabled}}">
+                <view style="width:24px"></view>
+                <view class="pl-5 middle" style="width:90px">
+                    <van-checkbox bind:change="goodChange" disabled="{{data.amoney<=0}}" name="{{'install_'+id+'_'+data.bh}}" shape="square" value="{{data.achecked}}">安装服务</van-checkbox>
+                </view>
+                <view class="flex-item explain">
+            购买前请看【<text bindtap="Lay" class="u" data-action="install" data-info="{{data.id}}">要求说明</text>】
+          </view>
+                <view class="money tright" style="width:80px">
+                    <view class="text" wx:if="{{data.amoney>0}}">￥<view class="num">{{data.amoney}}</view>
+                    </view>
+                    <view class="text green" wx:else>免费</view>
+                </view>
+            </view>
+            <view class="row-flex attach" wx:if="{{data.type=='code'&&!data.gdisabled&&data.kjifen>0}}">
+                <view style="width:24px"></view>
+                <view class="pl-5" style="width:90px">
+                    <van-checkbox bind:change="goodChange" disabled="{{MyJifen<=0&&data.yjifen<=0}}" name="{{'jifen_'+id+'_'+data.bh}}" shape="square" value="{{data.jchecked}}">积分抵价</van-checkbox>
+                </view>
+                <view class="flex-item explain">
+                    <view wx:if="{{MyJifen<=0&&data.yjifen<=0}}">您当前可用积分不足</view>
+                    <view wx:else>商品支持使用<view class="b">{{data.kjifen}}</view>积分</view>
+                    <view wx:if="{{data.yjifen>0}}">当前准备使用<view class="b">{{data.yjifen}}</view>积分</view>
+                </view>
+                <view class="money tright" style="width:80px">
+                    <view class="text green" wx:if="{{data.yjifen>0}}">-￥<view class="num">{{data.yjifen/10}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <van-submit-bar bind:submit="create_cartList" buttonText="提交结算" buttonHidden="{{Form.buttonHidden}}" disabled="{{CartMoney<=0}}" loading="{{postIng}}" price="{{CartMoney*100}}" tip="{{Form.tip}}">
+        <view slot="tip"></view>
+        <view style="width:10px"></view>
+        <van-checkbox bind:change="AllChange" shape="square" value="{{Allchecked}}">全选（{{CartCount}}）</van-checkbox>
+    </van-submit-bar>
+</view>

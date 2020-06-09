@@ -1,0 +1,2 @@
+<text class="{{customClass||''}}" style="{{customStyle||''}}" wx:if="{{!showSlot}}">{{countDownText}}</text>
+<slot wx:else></slot>

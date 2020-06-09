@@ -1,0 +1,41 @@
+module.exports = ({
+    isShow: (function(Show, form) {
+        if (typeof Show.field !== 'object' && typeof Show.value !== 'number') {
+            var field = Show.field.split(",");
+            var value = Show.value.split(",")
+        } else if (typeof Show.value == 'number') {
+            var field = [Show.field];
+            var value = [Show.value]
+        } else {
+            var field = Show.field;
+            var value = Show.value
+        };
+        for (i = 0; i < field.length; i++) {
+            var F = field[((nt_0 = (i), null == nt_0 ? undefined : 'number' === typeof nt_0 ? nt_0 : "" + nt_0))];
+            var V = value[((nt_1 = (i), null == nt_1 ? undefined : 'number' === typeof nt_1 ? nt_1 : "" + nt_1))];
+            var res = F ? (!form[((nt_2 = (Show.type), null == nt_2 ? undefined : 'number' === typeof nt_2 ? nt_2 : "" + nt_2))] || !form[((nt_3 = (Show.type), null == nt_3 ? undefined : 'number' === typeof nt_3 ? nt_3 : "" + nt_3))][((nt_3 = (F), null == nt_3 ? undefined : 'number' === typeof nt_3 ? nt_3 : "" + nt_3))] ? Show.hide : (Show.type == 'checkbox' ? (form[((nt_4 = (Show.type), null == nt_4 ? undefined : 'number' === typeof nt_4 ? nt_4 : "" + nt_4))][((nt_4 = (F), null == nt_4 ? undefined : 'number' === typeof nt_4 ? nt_4 : "" + nt_4))].join("") !== V ? true : false) : (V == 'true' ? (!form[((nt_5 = (Show.type), null == nt_5 ? undefined : 'number' === typeof nt_5 ? nt_5 : "" + nt_5))][((nt_5 = (F), null == nt_5 ? undefined : 'number' === typeof nt_5 ? nt_5 : "" + nt_5))] ? true : false) : (V == 'false' ? (!form[((nt_6 = (Show.type), null == nt_6 ? undefined : 'number' === typeof nt_6 ? nt_6 : "" + nt_6))][((nt_6 = (F), null == nt_6 ? undefined : 'number' === typeof nt_6 ? nt_6 : "" + nt_6))] ? false : true) : form[((nt_7 = (Show.type), null == nt_7 ? undefined : 'number' === typeof nt_7 ? nt_7 : "" + nt_7))][((nt_7 = (F), null == nt_7 ? undefined : 'number' === typeof nt_7 ? nt_7 : "" + nt_7))] !== V ? true : false)))) : false;
+            if (res) return (res);
+        };
+        return (res)
+    }),
+    getPickerIndex: (function(index, list) {
+        list = undefined === list ? [] : list;
+        var i = list.indexOf(index);
+        return (i > 0 ? i : 0)
+    }),
+    showField: (function(field, form) {
+        var F = [];
+        var F = field.split(".");
+        var res = form;
+        for (i = 0; i < F.length; i++) {
+            if (!res[((nt_8 = (F[((nt_9 = (i), null == nt_9 ? undefined : 'number' === typeof nt_9 ? nt_9 : "" + nt_9))]), null == nt_8 ? undefined : 'number' === typeof nt_8 ? nt_8 : "" + nt_8))]) return ('');;
+            res = res[((nt_10 = (F[((nt_11 = (i), null == nt_11 ? undefined : 'number' === typeof nt_11 ? nt_11 : "" + nt_11))]), null == nt_10 ? undefined : 'number' === typeof nt_10 ? nt_10 : "" + nt_10))]
+        };
+        return (res || '')
+    }),
+    isImage: (function(filename) {
+        var name = filename.toLowerCase();
+        var type = name.split('.').slice(-1).join('');
+        return (['jpg', 'png', 'gif', 'svg'].indexOf(type) >= 0 ? true : type)
+    }),
+});

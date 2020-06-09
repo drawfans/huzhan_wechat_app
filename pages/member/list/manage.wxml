@@ -1,0 +1,90 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop,bottom:45}}"></template>
+<block wx:if="{{!spin&&Form.tabs}}">
+    <van-tabs animated sticky swipeable active="{{listIndex}}" bind:change="tabChange" customClass="fixed-tabs" id="total" lineWidth="{{(SystemInfo.windowWidth-50)/4}}" swipeThreshold="4">
+        <van-tab title="{{tab.name}}({{tab.num}})" wx:for="{{Form.tabs.total}}" wx:for-index="listid" wx:for-item="tab" wx:key="key">
+            <view hidden="{{getdata[listIndex].mode!==tab.key}}">
+                <van-tabbar fixed active="{{active[listid]}}" bind:change="typeChange" id="{{tab.key}}">
+                    <van-tabbar-item icon="home-o" info="{{tabs.num||null}}" title="{{tabs.name}}" wx:for="{{Form.tabs[tab.key]}}" wx:for-index="typeid" wx:for-item="tabs" wx:key="name">{{tabs.name}}</van-tabbar-item>
+                </van-tabbar>
+            </view>
+            <view class="manageList">
+                <view class="item" wx:for="{{listdata[listid].list}}" wx:for-index="itemIndex" wx:key="bh">
+                    <view class="top">
+                        <view class="time">
+                {{item.time.name}}<text style="{{item.time.color?'color:'+item.time.color:''}}">{{item.time.value}}</text>
+                            <block wx:if="{{item.djl}}">
+                {{item.djl.name}}<text>{{item.djl.value}}</text>
+                            </block>
+                        </view>
+                        <view bindtap="{{item.state.bind?item.state.bind:item.state.link?'Lay':''}}" class="state {{item.state.class}}" data-action="{{item.state.action||'url'}}" data-info="{{item.state.info||item.state.link||''}}">
+                            <van-icon name="yuanjiaojuxing"></van-icon>{{item.state.text}}</view>
+                    </view>
+                    <view class="row-flex info" wx:if="{{item.pic}}">
+                        <navigator class="pic" url="{{item.url}}">
+                            <image mode="widthFix" src="{{item.pic}}"></image>
+                        </navigator>
+                        <view class="flex-item">
+                            <view bindtap="Lay" class="tit" data-action="url" data-info="{{item.url}}">
+                                <block wx:if="{{searchVal==''}}">{{item.title}}</block>
+                                <rich-text nodes="{{item.title}}" wx:else></rich-text>
+                            </view>
+                            <view class="note">
+                                <view>
+                                    <block wx:for="{{item.note.left}}" wx:for-item="M" wx:key="index">
+                                        <view class="{{type}}" wx:for="{{M}}" wx:for-index="type" wx:for-item="info" wx:key="index">{{info}}</view>
+                                    </block>
+                                    <view class="tright" wx:if="{{item.note.right}}">
+                                        <template is="forview" data="{{list:item.note.right,form:popupForm.form}}"></template>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="row-flex info" wx:else>
+                        <view class="flex-item">
+                            <view bindtap="Lay" class="tit" data-action="url" data-info="{{item.url}}">
+                                <block wx:for="{{item.note.left}}" wx:for-item="M" wx:key="index">
+                                    <text class="{{type}}" wx:for="{{M}}" wx:for-index="type" wx:for-item="info" wx:key="index">{{info}}</text>
+                                </block>
+                                <block wx:if="{{searchVal==''}}">{{item.title}}</block>
+                                <rich-text nodes="{{item.title}}" wx:else></rich-text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="bot row-flex">
+                        <view class="flex-item">
+                            <view class="gicon" wx:if="{{item.icon}}">
+                                <block wx:for="{{item.icon}}" wx:for-item="is" wx:key="index">
+                                    <van-icon bindtap="{{is.bind||'Lay'}}" customClass="{{is.class||''}}" data-action="{{is.action||''}}" data-data="{{is.data||''}}" data-info="{{is.info||''}}" data-method="{{is.method||''}}" name="{{is.name||''}}" wx:if="{{is.type=='icon'}}"></van-icon>
+                                    <view bindtap="{{is.bind||'Lay'}}" class="{{is.class}}" data-action="{{is.action||''}}" data-data="{{is.data||''}}" data-info="{{is.info||''}}" data-method="{{is.method||''}}" name="{{is.name||''}}" wx:else>
+                    {{is.text}}
+                  </view>
+                                </block>
+                            </view>
+                        </view>
+                        <view class="ListAction">
+                            <van-button bindtap="{{btn.bind||'Lay'}}" customClass="{{btn.class||''}}" data-action="{{btn.action||''}}" data-batch="{{btn.batch||'updown'}}" data-c1="{{item.bh||''}}" data-data="{{btn.data||''}}" data-index="{{itemIndex}}" data-info="{{btn.info||''}}" data-list="{{Form.list}}" data-method="{{btn.method||''}}" data-mode="{{getdata[listIndex].mode}}" data-type="{{getdata[listIndex].type}}" icon="{{btn.icon||''}}" iconstyle="{{btn.iconstyle}}" plain="true" size="small" type="{{btn.type||'default'}}" wx:for="{{item.btn}}" wx:for-item="btn" wx:key="text">{{btn.text}}</van-button>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </van-tab>
+        <view class="manageAction van-hairline--right" slot="nav-left">
+            <van-icon bindtap="postToggle" customClass="Action-icon" name="zhuce2" size="26px"></van-icon>
+        </view>
+        <view class="manageAction van-hairline--left" slot="nav-right">
+            <van-transition customClass="fixed" name="slide-down" show="{{searchShow}}">
+                <view class="van-hairline--bottom">
+                    <van-search showAction bind:cancel="searchRemove" bind:search="searchSubmit" customClass="tab-search" focus="{{searchFocus}}" placeholder="请输入搜索标题关键词" shape="round" value="{{searchVal}}"></van-search>
+                </view>
+            </van-transition>
+            <van-icon bindtap="searchToggle" customClass="Action-icon" name="fenlei2"></van-icon>
+        </view>
+    </van-tabs>
+    <van-popup bind:close="postToggle" closeOnClickOverlay="{{false}}" customStyle="width:80%;" show="{{postShow}}" title="{{Form.typename}}发布" titleStyle="font-weight:700;{{Form.titleStyle||'color:red'}}" zIndex="10000">
+        <template is="forview" data="{{list:Form.post}}"></template>
+    </van-popup>
+    <template is="list_bottom" data="{{...listdata[listIndex],loading:loading,lazy:Form.lazy.add>0,bottom:45}}"></template>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</block>

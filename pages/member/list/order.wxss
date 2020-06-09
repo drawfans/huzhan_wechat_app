@@ -1,0 +1,169 @@
+@import "../../../__wuBaseWxss__/0.wxss";
+
+@import "../../../vant/area/index.wxss";
+
+.orderList .item {
+    overflow: hidden;
+    margin: 10px 10px 0 10px;
+    background: #fff;
+    padding: 0 10px;
+    border-radius: 2px;
+}
+
+.orderList .r {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.orderList .top {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    color: #999;
+}
+
+.orderList .top .name {
+    color: #666;
+}
+
+.orderList .top .money {
+    font-family: Helvetica;
+    color: red;
+}
+
+.orderList .top .money text {
+    color: #f60;
+}
+
+.orderList .top .money text:before {
+    content: " + ";
+    color: #ccc;
+}
+
+.orderList .top>view {
+    display: inline-block;
+}
+
+.orderList .top .contact view {
+    padding: 8px 3px;
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+.orderList .top .contact view:first-child {
+    margin-left: 5px;
+}
+
+.orderList .ts {
+    font-size: 12px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+.orderList .ts .time {
+    color: #999;
+}
+
+.orderList .ts .time .van-icon {
+    font-size: 19px;
+    line-height: 19px;
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+.orderList .action {
+    padding: 10px 0;
+}
+
+.orderList .action .van-button {
+    margin: 0 0 0 10px;
+    line-height: 23px;
+    font-size: 12px;
+    padding: 0 5px;
+    border: 1px solid #ededed;
+    color: #444;
+    height: 26px;
+    min-width: auto;
+}
+
+.orderList .action .van-button.green {
+    color: #3a933a;
+    border-color: #3a933a;
+}
+
+.orderList .action .van-button.orange {
+    color: #f60;
+    border-color: #f60;
+}
+
+.orderList .action .van-button.gray {
+    color: #999;
+}
+
+.orderList .action .van-button .van-icon {
+    vertical-align: middle;
+    margin-top: -2px;
+    margin-right: 2px;
+}
+
+.orderList .info {
+    padding: 12px 0;
+    width: 100%;
+}
+
+.orderList .info .pic {
+    color: #36c;
+    border: 1px #eee solid;
+    width: 96px;
+    height: 76px;
+    line-height: 76px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.orderList .info .pic image {
+    width: 100%;
+}
+
+.orderList .info .attr {
+    margin-left: 10px;
+    position: relative;
+}
+
+.orderList .info .gicon {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: auto;
+    right: auto;
+}
+
+.orderList .info .gicon view {
+    border-radius: 2px;
+    padding: 3px 8px 4px 8px;
+    margin: 0 5px 0 0;
+    width: auto;
+    height: auto;
+}
+
+.orderList .info .attr .title {
+    line-height: 20px;
+    color: #333;
+    max-height: 40px;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.orderList .info .attr navigator {
+    color: #333;
+}
+
+.nav_top {
+    border-bottom: solid 1px #eee;
+}

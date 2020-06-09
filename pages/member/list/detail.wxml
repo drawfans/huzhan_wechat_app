@@ -1,0 +1,27 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <van-tabs animated sticky swipeable active="{{listIndex}}" bind:change="tabChange" swipeThreshold="6">
+        <van-tab title="{{tab.name}}" wx:for="{{Form.tabs}}" wx:for-index="id" wx:for-item="tab" wx:key="value">
+            <van-search bind:search="searchSubmit" icon="search" placeholder="请输入{{tab.search}}" value="{{searchVal[id]}}" wx:if="{{tab.search}}"></van-search>
+            <view class="detailList" id="main">
+                <view class="item" wx:for="{{listdata[id].list}}" wx:for-item="list" wx:key="index">
+                    <view class="row-flex">
+                        <view class="t{{type}}" style="{{list.style[type]?list.style[type]:''}}" wx:if="{{type!='style'}}" wx:for="{{list}}" wx:for-index="type" wx:for-item="array" wx:key="index">
+                            <view>
+                                <block wx:for="{{array}}" wx:for-item="data" wx:key="index">
+                                    <view bindtap="{{data.bind||''}}" class="{{data.class||''}}" data-action="{{data.action||''}}" data-data="{{data.data||data.data===0?data.data:''}}" data-info="{{data.info||''}}" data-method="{{data.method||''}}" data-title="{{data.title||''}}" style="{{data.style||''}}" wx:if="{{!data.icon}}">
+                                    {{data.text}}
+                                </view>
+                                    <van-icon bindtap="{{data.bind||''}}" customClass="{{data.class||''}}" data-action="{{data.action||''}}" data-info="{{data.info||''}}" data-title="{{data.title||''}}" name="{{data.icon}}" wx:else></van-icon>
+                                </block>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </van-tab>
+    </van-tabs>
+    <template is="list_bottom" data="{{...listdata[listIndex],loading:loading,lazy:Form.lazy.add>0,unit:'条'}}"></template>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</block>

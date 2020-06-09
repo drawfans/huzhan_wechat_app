@@ -1,0 +1,8 @@
+<import src="/template/template.wxml"></import>
+<block wx:for="{{data}}" wx:for-item="view" wx:key="index">
+    <template is="view" data="{{view:view,form:form}}" wx:if="{{!view.list}}"></template>
+    <view bindtap="{{view.bind||''}}" class="{{view.class||''}}" data-action="{{view.action||''}}" data-data="{{view.data||view.data===0?view.data:''}}" data-info="{{view.info||''}}" data-method="{{view.method||''}}" data-name="{{view.name||''}}" hidden="{{view.isShow?tools.isShow(view.isShow,form):false}}" hoverClass="{{view.hover?view.hover:view.hover!==false&&view.action=='url'?'hover':'none'}}" style="{{view.style||''}}" wx:else>
+        <forview bind:Event="Lay" data="{{view.list}}" form="{{form}}"></forview>
+    </view>
+</block>
+<wxs module="tools" src="../tools.wxs" />

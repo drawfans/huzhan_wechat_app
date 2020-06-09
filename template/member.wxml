@@ -1,0 +1,7 @@
+<template name="HttpLoading">
+    <view class="loadingFull">
+        <view class="content">
+            <van-loading size="40px" type="spinner"></van-loading>
+        </view>
+    </view>
+</template>

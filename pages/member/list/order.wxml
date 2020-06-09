@@ -1,0 +1,57 @@
+<import src="/template/template.wxml"></import>
+<template is="ly" data="{{popup:popup,popuphtml:popuphtml,spin:spin||popupSpin||false,gotop:gotop}}"></template>
+<block wx:if="{{!spin}}">
+    <van-search useActionSlot bind:change="searchChange" bind:search="searchSubmit" icon="arrow-down" placeholder="{{dropTips}}" shape="round" value="{{searchVal}}">
+        <view catchtap="dropOpen" slot="label" style="padding:0 5px;line-height:34px;">{{dropName}}</view>
+        <view bind:tap="searchSubmit" slot="action">搜索</view>
+    </van-search>
+    <van-popup widthFull bind:close="dropOpen" closable="{{false}}" position="top" show="{{dropShow}}">
+        <van-picker showToolbar bind:cancel="dropOpen" bind:confirm="dropChange" columns="{{Form.dropKey}}" title="选择搜索对象"></van-picker>
+    </van-popup>
+    <van-tabs animated sticky swipeable active="{{listIndex}}" bind:change="tabChange" swipeThreshold="5">
+        <van-tab title="{{tab.name}}" wx:for="{{Form.tabs}}" wx:for-index="id" wx:for-item="tab" wx:key="value">
+            <view class="orderList" id="main">
+                <view animation="{{animation[item.ddbh]}}" class="item {{itemIndex===0&&'lazyView'}}" wx:for="{{listdata[id].list}}" wx:for-index="itemIndex" wx:key="itemIndex">
+                    <view class="top">
+                        <view class="name">{{item.dfinfo.role}}：{{item.dfinfo.name}}</view>
+                        <view class="contact">
+                            <template is="forview" data="{{list:item.dfinfo.contact}}"></template>
+                        </view>
+                        <view class="money r">￥{{item.money}}<text wx:if="{{item.jifen>0}}">{{item.jifen}}积分</text>
+                        </view>
+                    </view>
+                    <view class="row-flex info van-hairline--top-bottom">
+                        <view class="pic loadImage van-hairline--surround" wx:if="{{item.thumb.type=='img'}}">
+                            <image bindtap="Lay" data-action="preview" data-src="{{item.thumb.value}}" mode="widthFix" src="{{item.thumb.value}}" wx:if="{{Form.lazy.pos>itemIndex}}"></image>
+                        </view>
+                        <view class="pic van-hairline--surround" style="background: #fafafa;" wx:else>
+                            <view>{{item.thumb.value}}</view>
+                        </view>
+                        <view class="flex-item attr">
+                            <view class="title">
+                                <navigator hoverClass="hover" url="{{item.link}}" wx:if="{{item.link}}">{{item.title}}</navigator>
+                                <block wx:else>{{item.title}}</block>
+                            </view>
+                            <view class="gicon" wx:if="{{item.icon}}">
+                                <template is="forview" data="{{list:item.icon}}"></template>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="ts van-hairline--bottom">
+                        <view class="time" style="color:{{item.time.color}}">
+                            <van-icon name="{{item.time.down?'shalou':'clock-o'}}"></van-icon>
+                {{item.time.text}}<down customClass="{{item.time.class||''}}" customStyle="{{item.time.style||''}}" expireTime="{{item.time.value}}" wx:if="{{item.time.down==1}}"></down>
+                            <block wx:else>{{item.time.value}}</block>
+                        </view>
+                        <rich-text class="state r" nodes="{{item.state}}"></rich-text>
+                    </view>
+                    <view class="ListAction">
+                        <van-button bindtap="{{btn.bind||''}}" customClass="{{btn.class}}" data-action="{{btn.action||''}}" data-data="{{btn.data||''}}" data-index="{{itemIndex}}" data-info="{{btn.info||''}}" data-method="{{btn.method||''}}" icon="{{btn.icon||''}}" iconstyle="{{btn.iconstyle||''}}" plain="true" size="small" type="{{btn.type||'default'}}" wx:for="{{item.btn}}" wx:for-item="btn" wx:key="text">{{btn.text}}</van-button>
+                    </view>
+                </view>
+            </view>
+        </van-tab>
+    </van-tabs>
+    <template is="list_bottom" data="{{...listdata[listIndex],loading:loading,lazy:Form.lazy.add>0,unit:'笔'}}"></template>
+    <template is="popupform" data="{{Form:popupForm}}"></template>
+</block>
